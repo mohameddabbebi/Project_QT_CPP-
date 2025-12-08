@@ -1,27 +1,17 @@
-/**
- * @file TodoState.h
- * @brief Énumération des états possibles d'une tâche
- * @author [Votre Nom]
- */
-
 #ifndef TODOSTATE_H
 #define TODOSTATE_H
 
 #include <QString>
 
-/**
- * @enum TodoState
- * @brief États possibles d'une tâche
- */
 enum class TodoState {
-    Not_Ready,      ///< Pas prête (dépendances non satisfaites)
-    Ready_Todo,     ///< Prête à être commencée
-    In_Progress,    ///< En cours de réalisation
-    Done            ///< Terminée
+    Not_Ready,
+    Ready_Todo,
+    In_Progress,
+    Done
 };
 
 /**
- * @brief Convertit un état en QString pour l'affichage
+ * Convertit un état en QString pour l'affichage
  */
 inline QString todoStateToString(TodoState state) {
     switch(state) {
@@ -34,7 +24,7 @@ inline QString todoStateToString(TodoState state) {
 }
 
 /**
- * @brief Retourne la couleur associée à un état
+ * Retourne la couleur associée à un état
  */
 /*inline QColor todoStateColor(TodoState state) {
     switch(state) {
@@ -46,4 +36,4 @@ inline QString todoStateToString(TodoState state) {
     return Qt::gray;
 }
 */
-#endif // TODOSTATE_H
+#endif

@@ -1,9 +1,5 @@
-/**
- * @file TodoItem.cpp
- * @brief Implémentation de TodoItem
- */
-
 #include "todoitem.h"
+#include <QUuid>
 
 TodoItem::TodoItem(const QString& title,
                    const QString& desc,
@@ -12,6 +8,7 @@ TodoItem::TodoItem(const QString& title,
                    const QList<TodoItem*>& nexts,
                    QObject *parent)
     : QObject(parent)
+    ,id(QUuid::createUuid().toString())
     , m_title(title)
     , m_description(desc)
     , m_state(TodoState::Not_Ready)
@@ -20,16 +17,22 @@ TodoItem::TodoItem(const QString& title,
     , m_prevs(prevs)
     , m_nexts(nexts)
 {
-    // Initialisation correcte du nombre de prédécesseurs non terminés
+    // Initialisation du nombre de prédécesseurs non terminés
     m_countPrec = m_prevs.size();
 
     for (TodoItem* prev : m_prevs) {
-        if (prev->getState() == TodoState::Done) {
+        if (prev && prev->getState() == TodoState::Done) {
             m_countPrec--;
         }
 
-        // Assurer relation bidirectionnelle
+        if(prev){
         prev->addNext(this);
+        }
+    }
+    for (TodoItem* next : m_nexts) {
+        if (next) {
+            next->addPrev(this);
+        }
     }
 
     // Définir l’état initial
@@ -44,10 +47,14 @@ TodoItem::~TodoItem()
 {
     // Nettoyer les relations bidirectionnelles
     for (TodoItem* prev : m_prevs) {
-        prev->removeNext(this);
+        if (prev) {  // ✅ CORRECTION : vérifier avant d'utiliser
+            prev->removeNext(this);
+        }
     }
     for (TodoItem* next : m_nexts) {
-        next->removePrev(this);
+        if (next) {  // ✅ CORRECTION : vérifier avant d'utiliser
+            next->removePrev(this);
+        }
     }
 }
 
@@ -97,7 +104,9 @@ void TodoItem::addPrev(TodoItem* prev)
 {
     if (prev && !m_prevs.contains(prev)) {
         m_prevs.append(prev);
-        prev->addNext(this);
+        if (!prev->getNexts().contains(this)) {
+            prev->addNext(this);
+        }
 
         if (prev->getState() != TodoState::Done) {
             m_countPrec++;
@@ -111,13 +120,16 @@ void TodoItem::addNext(TodoItem* next)
 {
     if (next && !m_nexts.contains(next)) {
         m_nexts.append(next);
+        if (!next->getPrevs().contains(this)) {
+            next->addPrev(this);
+        }
     }
 }
 
 void TodoItem::removePrev(TodoItem* prev)
 {
     if (m_prevs.removeOne(prev)) {
-        if (prev->getState() != TodoState::Done) {
+        if (prev && prev->getState() != TodoState::Done) {
             m_countPrec--;
         }
         updateStateFromDependencies();

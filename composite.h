@@ -1,24 +1,16 @@
-/**
- * @file Composite.h
- * @brief Classe implémentant le pattern Composite pour les tâches hiérarchiques
- * @author [Votre Nom]
- */
 
 #ifndef COMPOSITE_H
 #define COMPOSITE_H
 
 #include "todoitem.h"
 
-/**
- * @class Composite
- * @brief Tâche composite pouvant contenir des sous-tâches
- */
+
 class Composite : public TodoItem
 {
     Q_OBJECT
 
 public:
-    Composite(const QString& title = "", QObject *parent = nullptr);
+    Composite(const QString& title = "",const QString& desc = "", QObject *parent = nullptr);
     ~Composite() override;
 
     // Gestion de la hiérarchie
@@ -35,18 +27,17 @@ public:
     bool isLeaf() const override { return false; }
 
     /**
-     * @brief Vérifie si toutes les sous-tâches sont terminées
+     * Vérifie si toutes les sous-tâches sont terminées
      */
     bool areAllChildrenDone() const;
 
     /**
-     * @brief Met à jour l'état selon les sous-tâches
+     *  Met à jour l'état selon les sous-tâches
      */
     void updateStateFromChildren();
 
     /**
-     * @brief Calcule le pourcentage de complétion
-     * @return Valeur entre 0 et 100
+     * Calcule le pourcentage de complétion
      */
     int getCompletionPercentage() const;
 
@@ -60,4 +51,4 @@ private:
 
 };
 
-#endif // COMPOSITE_H
+#endif

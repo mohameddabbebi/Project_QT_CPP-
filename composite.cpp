@@ -1,14 +1,16 @@
-/**
- * @file Composite.cpp
- * @brief Implémentation de Composite
- * @author [Votre Nom]
- */
-
 #include "composite.h"
 
-Composite::Composite(const QString& title, QObject *parent)
-    : TodoItem()
+Composite::Composite(const QString& title,
+                     const QString& desc,
+                     QObject *parent)
+    : TodoItem(title,
+               desc,
+               QDate::currentDate().addDays(7),
+               {},
+               {},
+               parent)
 {
+
 }
 
 Composite::~Composite()
@@ -77,27 +79,51 @@ void Composite::updateStateFromChildren()
         return;
     }
 
+    // Toutes les sous-tâches sont terminées → Composite Done
     if (areAllChildrenDone()) {
         setState(TodoState::Done);
-    } else {
-        // Vérifier si au moins une sous-tâche est en cours
-        bool hasInProgress = false;
-        for (const TodoItem* child : m_children) {
-            if (child->getState() == TodoState::In_Progress) {
-                hasInProgress = true;
-                break;
-            }
-        }
+        return;
+    }
 
-        if (hasInProgress) {
-            setState(TodoState::In_Progress);
-        } else if (m_state == TodoState::Done) {
-            // Si on était Done mais plus maintenant
-            setState(TodoState::Ready_Todo);
+    // Analyser l'état des enfants
+    bool hasInProgress = false;
+    bool hasReady = false;
+    bool allNotReady = true;
+
+    for (const TodoItem* child : m_children) {
+        TodoState childState = child->getState();
+
+        if (childState == TodoState::In_Progress) {
+            hasInProgress = true;
+            allNotReady = false;
+        }
+        else if (childState == TodoState::Ready_Todo) {
+            hasReady = true;
+            allNotReady = false;
+        }
+        else if (childState == TodoState::Done) {
+            allNotReady = false;
         }
     }
-}
 
+
+    if (hasInProgress) {
+        // Au moins un enfant en cours → Composite en cours
+        setState(TodoState::In_Progress);
+    }
+    else if (hasReady) {
+        // Au moins un enfant prêt → Composite prêt
+        setState(TodoState::Ready_Todo);
+    }
+    else if (allNotReady) {
+        // Tous les enfants pas prêts → Composite pas prêt
+        setState(TodoState::Not_Ready);
+    }
+    else if (m_state == TodoState::Done) {
+        // Si on était Done mais plus maintenant
+        setState(TodoState::Ready_Todo);
+    }
+}
 int Composite::getCompletionPercentage() const
 {
     if (m_children.isEmpty()) {
