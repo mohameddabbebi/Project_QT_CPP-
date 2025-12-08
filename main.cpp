@@ -1,23 +1,19 @@
-#include "mainwindow.h"
+
 #include <QApplication>
-#include <QDebug>
-#include "todoitem.h"
-#include "TodoState.h"
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    // Test minimal
-    TodoItem* tache = new TodoItem("test", "test");
-    tache->setDescription("Ceci est un test");
+    // Configuration de l'application
+    app.setApplicationName("KIRA");
+    app.setApplicationVersion("1.0");
+    app.setOrganizationName("KIRA Team");
 
-    qDebug() << "Titre:" << tache->getTitle();
-    qDebug() << "Date limite:" << tache->getDueDate().toString("dd/MM/yyyy");
+    // Créer et afficher la fenêtre principale
+    MainWindow window;
+    window.show();
 
-    delete tache;
-
-    qDebug() << "Test réussi!";
-
-    return 0;
+    return app.exec();
 }

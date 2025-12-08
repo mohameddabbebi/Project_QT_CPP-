@@ -23,17 +23,4 @@ inline QString todoStateToString(TodoState state) {
     return "Inconnu";
 }
 
-/**
- * Retourne la couleur associée à un état
- */
-/*inline QColor todoStateColor(TodoState state) {
-    switch(state) {
-        case TodoState::Not_Ready: return QColor(255, 100, 100);    // Rouge clair
-        case TodoState::Ready_Todo: return QColor(255, 200, 0);     // Jaune
-        case TodoState::In_Progress: return QColor(100, 150, 255);  // Bleu
-        case TodoState::Done: return QColor(100, 200, 100);         // Vert
-    }
-    return Qt::gray;
-}
-*/
 #endif

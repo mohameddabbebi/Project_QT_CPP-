@@ -70,7 +70,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 23));
+        menubar->setGeometry(QRect(0, 0, 800, 25));
         menuFichier = new QMenu(menubar);
         menuFichier->setObjectName("menuFichier");
         menuEdition = new QMenu(menubar);

@@ -12,13 +12,15 @@ SOURCES += \
     composite.cpp \
     main.cpp \
     mainwindow.cpp \
-    todoitem.cpp
+    todoitem.cpp \
+    todomodel.cpp
 
 HEADERS += \
     TodoState.h \
     composite.h \
     mainwindow.h \
-    todoitem.h
+    todoitem.h \
+    todomodel.h
 
 FORMS += \
     mainwindow.ui
