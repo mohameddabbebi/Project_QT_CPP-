@@ -6,20 +6,263 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>KIRA - Gestionnaire de Tâches</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LayoutDirection::LeftToRight</enum>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>11</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item alignment="Qt::AlignmentFlag::AlignTop">
+       <widget class="QLabel" name="Search">
+        <property name="text">
+         <string>Search:</string>
+        </property>
+       </widget>
+      </item>
+      <item alignment="Qt::AlignmentFlag::AlignTop">
+       <widget class="QLineEdit" name="searchBox"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_7">
+      <item>
+       <widget class="QTreeView" name="treeView">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QWidget" name="detailPanel" native="true">
+        <layout class="QVBoxLayout" name="verticalLayout_8">
+         <item alignment="Qt::AlignmentFlag::AlignTop">
+          <widget class="QLabel" name="TaskDetails">
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; font-style:italic; color:#55aa00;&quot;&gt;Task Details: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="titleEdit"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Due Date:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>State:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="taskIdLabel">
+             <property name="styleSheet">
+              <string notr="true">color: gray; font-size: 9pt;</string>
+             </property>
+             <property name="text">
+              <string>No Task Selected</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>ID: </string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Title: </string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QDateEdit" name="dueDateEdit">
+             <property name="calendarPopup">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="stateCombo">
+             <item>
+              <property name="text">
+               <string>Not_Ready</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Ready_Todo</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>In_Progress</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Done</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Description :</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTextEdit" name="descriptionEdit">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>100</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="groupBox">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>200</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>Dependencies</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout">
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Predecessors: </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="prevsListWidget">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>100</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QLabel" name="label_9">
+                <property name="text">
+                 <string>Successors:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="nextsListWidget">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>100</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Orientation::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="saveButton">
+             <property name="styleSheet">
+              <string notr="true">background-color: #4CAF50; color: white; padding: 5px 15px;</string>
+             </property>
+             <property name="text">
+              <string>Save</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="cancelButton">
+             <property name="styleSheet">
+              <string notr="true">background-color: #f44336; color: white; padding: 5px 15px;</string>
+             </property>
+             <property name="text">
+              <string>Cancel</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>1200</width>
      <height>25</height>
     </rect>
    </property>
@@ -27,50 +270,89 @@
     <property name="title">
      <string>Menu</string>
     </property>
-    <addaction name="actionNouveau"/>
-    <addaction name="actionOuvrir"/>
-    <addaction name="actionEnregistrer"/>
-    <addaction name="actionEnregistrer_Sous"/>
+    <addaction name="actionNewProject"/>
+    <addaction name="actionOpen"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSaveAs"/>
     <addaction name="actionImporter"/>
     <addaction name="actionExporter"/>
-    <addaction name="actionQuitter"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuEdition">
     <property name="title">
      <string>Edition</string>
     </property>
-    <addaction name="actionNew_Item"/>
-    <addaction name="actionRemove_Item"/>
+    <addaction name="actionAddTask"/>
+    <addaction name="actionAddChild"/>
+    <addaction name="actionDelete"/>
+    <addaction name="actionAddComposite"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
-    <addaction name="actionInfo"/>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuEdition"/>
    <addaction name="menuAbout"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionNouveau">
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNewProject"/>
+   <addaction name="actionOpen"/>
+   <addaction name="actionSave"/>
+   <addaction name="actionSaveAs"/>
+   <addaction name="actionImporter"/>
+   <addaction name="actionExporter"/>
+   <addaction name="actionAddTask"/>
+   <addaction name="actionAddChild"/>
+   <addaction name="actionAddComposite"/>
+   <addaction name="actionDelete"/>
+   <addaction name="actionAbout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNewProject">
    <property name="text">
-    <string>New</string>
+    <string>New Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionOuvrir">
+  <action name="actionOpen">
    <property name="text">
-    <string>Open</string>
+    <string>Open..</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionEnregistrer">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
-  <action name="actionEnregistrer_Sous">
+  <action name="actionSaveAs">
    <property name="text">
     <string>Save as</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
   <action name="actionImporter">
@@ -83,24 +365,40 @@
     <string>Export</string>
    </property>
   </action>
-  <action name="actionQuitter">
+  <action name="actionQuit">
    <property name="text">
     <string>Quit</string>
    </property>
-  </action>
-  <action name="actionNew_Item">
-   <property name="text">
-    <string>Add Item</string>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionRemove_Item">
+  <action name="actionAddTask">
    <property name="text">
-    <string>Remove Item</string>
+    <string>Add Task</string>
    </property>
   </action>
-  <action name="actionInfo">
+  <action name="actionDelete">
+   <property name="text">
+    <string>Delete Task</string>
+   </property>
+   <property name="toolTip">
+    <string>Delete Task</string>
+   </property>
+  </action>
+  <action name="actionAbout">
    <property name="text">
     <string>Info</string>
+   </property>
+  </action>
+  <action name="actionAddChild">
+   <property name="text">
+    <string>Add SubTask</string>
+   </property>
+  </action>
+  <action name="actionAddComposite">
+   <property name="text">
+    <string>Add Composite</string>
    </property>
   </action>
  </widget>

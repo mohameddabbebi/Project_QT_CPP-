@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../composite.h"
+#include "../../../ModelHead/composite.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

@@ -22,5 +22,17 @@ inline QString todoStateToString(TodoState state) {
     }
     return "Inconnu";
 }
+inline TodoState stringToTodoState(const QString& str) {
+    if (str == "Not Ready" || str == "Not_Ready")
+        return TodoState::Not_Ready;
+    if (str == "Ready" || str == "Ready_Todo")
+        return TodoState::Ready_Todo;
+    if (str == "In Progress" || str == "In_Progress")
+        return TodoState::In_Progress;
+    if (str == "Done")
+        return TodoState::Done;
+
+    return TodoState::Not_Ready; // Default
+}
 
 #endif

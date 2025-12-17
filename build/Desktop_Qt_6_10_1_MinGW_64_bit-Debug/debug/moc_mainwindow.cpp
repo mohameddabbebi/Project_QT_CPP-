@@ -6,8 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../mainwindow.h"
-#include <QtGui/qtextcursor.h>
+#include "../../../ControllerHead/mainwindow.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -40,65 +39,71 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
     namespace QMC = QtMocConstants;
     QtMocHelpers::StringRefStorage qt_stringData {
         "MainWindow",
-        "onNewProject",
+        "on_actionNewProject_triggered",
         "",
-        "onOpenProject",
-        "onSaveProject",
-        "onSaveProjectAs",
-        "onQuit",
-        "onAbout",
-        "onAddRootTask",
-        "onAddChildTask",
-        "onAddComposite",
-        "onDeleteTask",
+        "on_actionOpen_triggered",
+        "on_actionSave_triggered",
+        "on_actionSaveAs_triggered",
+        "on_actionQuit_triggered",
+        "on_actionImporter_triggered",
+        "on_actionExporter_triggered",
+        "on_actionAddTask_triggered",
+        "on_actionAddChild_triggered",
+        "on_actionAddComposite_triggered",
+        "on_actionDelete_triggered",
+        "on_actionAbout_triggered",
+        "on_saveButton_clicked",
+        "on_cancelButton_clicked",
+        "on_stateCombo_currentIndexChanged",
+        "index",
+        "on_searchBox_textChanged",
+        "text",
         "onTaskSelectionChanged",
         "QModelIndex",
         "current",
-        "previous",
-        "onSaveDetails",
-        "onCancelDetails",
-        "onSearchTextChanged",
-        "text",
-        "onStateChanged",
-        "index"
+        "previous"
     };
 
     QtMocHelpers::UintData qt_methods {
-        // Slot 'onNewProject'
+        // Slot 'on_actionNewProject_triggered'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onOpenProject'
+        // Slot 'on_actionOpen_triggered'
         QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSaveProject'
+        // Slot 'on_actionSave_triggered'
         QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSaveProjectAs'
+        // Slot 'on_actionSaveAs_triggered'
         QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onQuit'
+        // Slot 'on_actionQuit_triggered'
         QtMocHelpers::SlotData<void()>(6, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAbout'
+        // Slot 'on_actionImporter_triggered'
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAddRootTask'
+        // Slot 'on_actionExporter_triggered'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAddChildTask'
+        // Slot 'on_actionAddTask_triggered'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onAddComposite'
+        // Slot 'on_actionAddChild_triggered'
         QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onDeleteTask'
+        // Slot 'on_actionAddComposite_triggered'
         QtMocHelpers::SlotData<void()>(11, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onTaskSelectionChanged'
-        QtMocHelpers::SlotData<void(const QModelIndex &, const QModelIndex &)>(12, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 13, 14 }, { 0x80000000 | 13, 15 },
+        // Slot 'on_actionDelete_triggered'
+        QtMocHelpers::SlotData<void()>(12, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_actionAbout_triggered'
+        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_saveButton_clicked'
+        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_cancelButton_clicked'
+        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_stateCombo_currentIndexChanged'
+        QtMocHelpers::SlotData<void(int)>(16, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 17 },
         }}),
-        // Slot 'onSaveDetails'
-        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onCancelDetails'
-        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onSearchTextChanged'
+        // Slot 'on_searchBox_textChanged'
         QtMocHelpers::SlotData<void(const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::QString, 19 },
         }}),
-        // Slot 'onStateChanged'
-        QtMocHelpers::SlotData<void(int)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 21 },
+        // Slot 'onTaskSelectionChanged'
+        QtMocHelpers::SlotData<void(const QModelIndex &, const QModelIndex &)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 21, 22 }, { 0x80000000 | 21, 23 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -123,21 +128,23 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
     auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->onNewProject(); break;
-        case 1: _t->onOpenProject(); break;
-        case 2: _t->onSaveProject(); break;
-        case 3: _t->onSaveProjectAs(); break;
-        case 4: _t->onQuit(); break;
-        case 5: _t->onAbout(); break;
-        case 6: _t->onAddRootTask(); break;
-        case 7: _t->onAddChildTask(); break;
-        case 8: _t->onAddComposite(); break;
-        case 9: _t->onDeleteTask(); break;
-        case 10: _t->onTaskSelectionChanged((*reinterpret_cast<std::add_pointer_t<QModelIndex>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QModelIndex>>(_a[2]))); break;
-        case 11: _t->onSaveDetails(); break;
-        case 12: _t->onCancelDetails(); break;
-        case 13: _t->onSearchTextChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 14: _t->onStateChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 0: _t->on_actionNewProject_triggered(); break;
+        case 1: _t->on_actionOpen_triggered(); break;
+        case 2: _t->on_actionSave_triggered(); break;
+        case 3: _t->on_actionSaveAs_triggered(); break;
+        case 4: _t->on_actionQuit_triggered(); break;
+        case 5: _t->on_actionImporter_triggered(); break;
+        case 6: _t->on_actionExporter_triggered(); break;
+        case 7: _t->on_actionAddTask_triggered(); break;
+        case 8: _t->on_actionAddChild_triggered(); break;
+        case 9: _t->on_actionAddComposite_triggered(); break;
+        case 10: _t->on_actionDelete_triggered(); break;
+        case 11: _t->on_actionAbout_triggered(); break;
+        case 12: _t->on_saveButton_clicked(); break;
+        case 13: _t->on_cancelButton_clicked(); break;
+        case 14: _t->on_stateCombo_currentIndexChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 15: _t->on_searchBox_textChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 16: _t->onTaskSelectionChanged((*reinterpret_cast<std::add_pointer_t<QModelIndex>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QModelIndex>>(_a[2]))); break;
         default: ;
         }
     }
@@ -162,14 +169,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 17)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 17;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 17)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 15;
+        _id -= 17;
     }
     return _id;
 }

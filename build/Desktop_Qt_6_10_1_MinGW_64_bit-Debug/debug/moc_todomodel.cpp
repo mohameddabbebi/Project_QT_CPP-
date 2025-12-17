@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../todomodel.h"
+#include "../../../ModelHead/todomodel.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
