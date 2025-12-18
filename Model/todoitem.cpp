@@ -50,7 +50,7 @@ TodoItem::TodoItem(const QString& idp,const QString& title,
                    const QList<TodoItem*>& nexts,
                    QObject *parent)
     : QObject(parent)
-    ,id(idp)
+    ,id(QUuid::createUuid().toString())
     , m_title(title)
     , m_description(desc)
     , m_state(TodoState::Not_Ready)

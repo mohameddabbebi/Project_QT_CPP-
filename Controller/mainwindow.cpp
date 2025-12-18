@@ -20,32 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupTreeView();
     setupConnections();
+    setupStateComboBox();
 
 
     updateDetailPanelState(false);
 
-
-    TodoItem* task1 = new TodoItem("task1_id",
-                                   "Welcome to KIRA",
-                                   "Hierarchical task manager with dependencies");
-    task1->setState(TodoState::In_Progress);
-    m_model->addRootTask(task1);
-
-    TodoItem* task2 = new TodoItem("task2_id",
-                                   "Create your first task",
-                                   "Use Edition menu or toolbar");
-    m_model->addRootTask(task2);
-
-    Composite* comp1 = new Composite("comp1_id",
-                                     "Sample Project",
-                                     "A composite task example");
-    TodoItem* subtask = new TodoItem("subtask1_id",
-                                     "Subtask 1",
-                                     "First subtask");
-    comp1->addChild(subtask);
-    m_model->addRootTask(comp1);
-
-    ui->treeView->expandAll();
 
 
     ui->statusBar->showMessage(tr("Ready - Welcome to KIRA!"), 3000);
@@ -78,8 +57,25 @@ void MainWindow::setupConnections()
 
     connect(ui->treeView->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &MainWindow::onTaskSelectionChanged);
+    connect(ui->searchBox, &QLineEdit::textChanged,
+            this, &MainWindow::on_searchBox_textChanged);
 }
 
+void MainWindow::setupStateComboBox()
+{
+
+    ui->stateCombo->clear();
+
+
+    ui->stateCombo->addItem(tr("Not_Ready"),
+                            static_cast<int>(TodoState::Not_Ready));
+    ui->stateCombo->addItem(tr("Ready_Todo"),
+                            static_cast<int>(TodoState::Ready_Todo));
+    ui->stateCombo->addItem(tr("In_Progress"),
+                            static_cast<int>(TodoState::In_Progress));
+    ui->stateCombo->addItem(tr("Done"),
+                            static_cast<int>(TodoState::Done));
+}
 
 
 void MainWindow::on_actionNewProject_triggered()
@@ -126,6 +122,9 @@ void MainWindow::on_actionOpen_triggered()
         m_hasUnsavedChanges = false;
         ui->treeView->expandAll();
         ui->statusBar->showMessage(tr("Project loaded successfully"), 3000);
+        for(auto task:m_model->getAllTasks()){
+            qDebug()<<"itemfeugyuae :"<<task->getId()<<"\n";
+        }
     } else {
         QMessageBox::warning(this, tr("Error"),
                              tr("Failed to load project from: %1").arg(fileName));
@@ -397,7 +396,9 @@ void MainWindow::on_saveButton_clicked()
     m_currentTask->setTitle(ui->titleEdit->text());
     m_currentTask->setDescription(ui->descriptionEdit->toPlainText());
     m_currentTask->setDueDate(ui->dueDateEdit->date());
-
+    /*int currentIndex=ui->stateCombo->currentIndex();
+    TodoState newState=static_cast<TodoState>(ui->stateCombo->itemData(currentIndex).toInt());
+    m_currentTask->setState(newState);*/
     m_hasUnsavedChanges = true;
 
 

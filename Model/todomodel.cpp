@@ -446,7 +446,7 @@ bool TodoModel::importFromJson(const QString& filePath)
     Root->setcountDoneChild(rot["count_childs"].toInt());
     QJsonArray arr = rot["children"].toArray();
     Remplissage_du_Model(arr,Root,TodoState::Ready_Todo,Root);
-
+    AddTask(Root);
     return true;
 }
 void TodoModel::AddTask(TodoItem* x){
@@ -470,6 +470,7 @@ void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJson
             eltchild->addPrev(p);
             Remplissage_nexts(Root_System,eltchild,arrr1);
             p->addNext(eltchild);
+            AddTask(eltchild);
         }
         else {
             TodoItem* eltt = new TodoItem(elt["title"].toString(),elt["description"].toString(),nullptr);
@@ -479,6 +480,7 @@ void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJson
             eltt->addPrev(p);
             Remplissage_nexts(Root_System,eltt,arrr);
             p->addNext(eltt);
+            AddTask(eltt);
         }
     }
     return ;

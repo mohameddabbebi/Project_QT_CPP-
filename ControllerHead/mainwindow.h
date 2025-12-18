@@ -66,6 +66,7 @@ private:
 
 
     void setupConnections();
+    void setupStateComboBox();
     void setupTreeView();
     void loadTaskDetails(TodoItem* task);
     void clearDetailPanel();
