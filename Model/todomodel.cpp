@@ -513,16 +513,60 @@ void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState 
         }
     }
 }
+
+
+QJsonObject serializeItem(TodoItem* item)
+{
+    QJsonObject obj;
+
+    obj["title"] = item->getTitle();
+    obj["description"] = item->getDescription();
+    obj["state"] = todoStateToString(item->getState());
+    obj["dueDate"] = item->getDueDate().toString(Qt::ISODate);
+    obj["isComposite"] = item->isComposite();
+    obj["count_prec"] = item->getPrevs().size();
+
+    // 🔁 NEXTS (petits JSON imbriqués)
+    QJsonArray nexts;
+    for (TodoItem* n : item->getNexts()) {
+        nexts.append(serializeItem(n));
+    }
+    obj["nexts"] = nexts;
+
+    // 🌳 COMPOSITE → enfants récursifs
+    if (item->isComposite()) {
+        Composite* comp = static_cast<Composite*>(item);
+
+        obj["count_childs"] = comp->getChildren().size();
+
+        QJsonArray children;
+        for (TodoItem* c : comp->getChildren()) {
+            children.append(serializeItem(c)); // 🔁 récursif
+        }
+        obj["children"] = children;
+    }
+
+    return obj;
+}
+
+
 bool TodoModel::exportToJson(const QString& filePath) const
 {
-    QJsonObject root;
-    QJsonArray arr;
+    if (m_tasks.isEmpty())
+        return false;
 
+    Composite* root = dynamic_cast<Composite*>(m_tasks.first());
+    if (!root)
+        return false;
 
-    QJsonDocument doc(root);
+    QJsonObject json;
+    json["Name"] = Project_Name;
+    json["root"] = serializeItem(root); // 🌳 récursif
+
+    QJsonDocument doc(json);
 
     QFile file(filePath);
-    if (!file.open(QIODevice::WriteOnly))
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
     file.write(doc.toJson(QJsonDocument::Indented));
@@ -530,3 +574,4 @@ bool TodoModel::exportToJson(const QString& filePath) const
 
     return true;
 }
+
