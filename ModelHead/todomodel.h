@@ -68,7 +68,9 @@ public:
 
     bool importFromJson(const QString& filePath);
     bool exportToJson(const QString& filePath) const;
+    void Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState x , Composite* Root_System);
 
+    void Remplissage_nexts(Composite * Root_System , TodoItem * p , QJsonArray arr2);
     void clear();
 
 private slots:

@@ -421,7 +421,7 @@ Composite* TodoModel::findParentRecursive(TodoItem* task, Composite* parent) con
 
     return nullptr;
 }
-
+void Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState x , Composite* Root_System);
 bool TodoModel::importFromJson(const QString& filePath)
 {
     QFile file(filePath);
@@ -445,7 +445,7 @@ bool TodoModel::importFromJson(const QString& filePath)
     Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
     Root->setcountDoneChild(rot["count_childs"].toInt());
     QJsonArray arr = rot["children"].toArray();
-
+    Remplissage_du_Model(arr,Root,TodoState::Ready_Todo,Root);
 
     return true;
 }
@@ -454,9 +454,9 @@ void TodoModel::AddTask(TodoItem* x){
     return ;
 }
 
-void Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoModel & system , TodoState x , Composite& Root_System);
 
-void Remplissage_nexts(Composite & Root_System , TodoItem * p , QJsonArray arr2,TodoModel& system){
+
+void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJsonArray arr2){
     for(QJsonValueRef voisin : arr2){
         QJsonObject elt = voisin.toObject();
         if(elt["isComposite"].toBool()){
@@ -465,32 +465,49 @@ void Remplissage_nexts(Composite & Root_System , TodoItem * p , QJsonArray arr2,
             eltchild->setDueDate(QDate::fromString(elt["dueDate"].toString()));
             eltchild->setcountDoneChild(elt["count_childs"].toInt());
             QJsonArray arr1 = elt["children"].toArray();
-            Remplissage_du_Model(arr1,eltchild,system,TodoState::Not_Ready,Root_System);
-
+            Remplissage_du_Model(arr1,eltchild,TodoState::Not_Ready,Root_System);
+            QJsonArray arrr1 = elt["nexts"].toArray();
+            eltchild->addPrev(p);
+            Remplissage_nexts(Root_System,eltchild,arrr1);
+            p->addNext(eltchild);
+        }
+        else {
+            TodoItem* eltt = new TodoItem(elt["title"].toString(),elt["description"].toString(),nullptr);
+            eltt->setState(TodoState::Not_Ready);
+            eltt->setDueDate(QDate::fromString(elt["dueDate"].toString()));
+            QJsonArray arrr = elt["nexts"].toArray();
+            eltt->addPrev(p);
+            Remplissage_nexts(Root_System,eltt,arrr);
+            p->addNext(eltt);
         }
     }
+    return ;
 }
-void Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoModel & system , TodoState x , Composite& Root_System){
+void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState x , Composite* Root_System){
     for(QJsonValueRef inter : arr){
         QJsonObject rot = inter.toObject();
         if(rot["isComposite"].toBool()){
-            Composite* Root = new Composite(rot["title"].toString(),rot["description"].toString(),nullptr);
+            Composite* Root = new Composite(rot["title"].toString(),rot["description"].toString(),CT);
             Root->setState(x);
             Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
             Root->setcountDoneChild(rot["count_childs"].toInt());
             QJsonArray arr1 = rot["children"].toArray();
             QJsonArray arr2 =  rot["nexts"].toArray();
-            Remplissage_nexts(Root_System,Root,arr2,system);
-            Remplissage_du_Model(arr1 , Root,system , x , Root_System);
+            Remplissage_nexts(Root_System,Root,arr2);
+            Remplissage_du_Model(arr1 , Root , x , Root_System);
 
             CT->addChild(Root);
-            system.AddTask(Root);
+            AddTask(Root);
 
         }
         else {
-            TodoItem Root = TodoItem(rot["title"].toString(),rot["description"].toString(),nullptr);
-            Root.setState(TodoState::Ready_Todo);
-            Root.setDueDate(QDate::fromString(rot["dueDate"].toString()));
+            TodoItem* Root = new TodoItem(rot["title"].toString(),rot["description"].toString(),nullptr);
+            Root->setState(x);
+            Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
+            QJsonArray arr2 =  rot["nexts"].toArray();
+            Remplissage_nexts(Root_System,Root,arr2);
+            CT->addChild(Root);
+            AddTask(Root);
         }
     }
 }
