@@ -284,6 +284,7 @@
     </property>
     <addaction name="actionAddTask"/>
     <addaction name="actionAddChild"/>
+    <addaction name="actionAdd_SubTaskComposite"/>
     <addaction name="actionDelete"/>
     <addaction name="actionAddComposite"/>
    </widget>
@@ -316,8 +317,9 @@
    <addaction name="actionSaveAs"/>
    <addaction name="actionImporter"/>
    <addaction name="actionExporter"/>
-   <addaction name="actionAddTask"/>
    <addaction name="actionAddChild"/>
+   <addaction name="actionAdd_SubTaskComposite"/>
+   <addaction name="actionAddTask"/>
    <addaction name="actionAddComposite"/>
    <addaction name="actionDelete"/>
    <addaction name="actionAbout"/>
@@ -399,6 +401,11 @@
   <action name="actionAddComposite">
    <property name="text">
     <string>Add Composite</string>
+   </property>
+  </action>
+  <action name="actionAdd_SubTaskComposite">
+   <property name="text">
+    <string>Add SubTaskComposite</string>
    </property>
   </action>
  </widget>

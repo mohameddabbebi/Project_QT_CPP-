@@ -421,7 +421,7 @@ Composite* TodoModel::findParentRecursive(TodoItem* task, Composite* parent) con
 
     return nullptr;
 }
-void Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState x , Composite* Root_System);
+void Remplissage_du_Model(QJsonArray arr , Composite* CT  , Composite* Root_System);
 bool TodoModel::importFromJson(const QString& filePath)
 {
     QFile file(filePath);
@@ -440,13 +440,13 @@ bool TodoModel::importFromJson(const QString& filePath)
     QJsonObject root = doc.object();
     this->Project_Name = root["Name"].toString();
     QJsonObject rot = root["root"].toObject();
-    Composite* Root = new Composite(rot["title"].toString(),rot["description"].toString(),nullptr);
-    Root->setState(TodoState::Ready_Todo);
-    Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
-    Root->setcountDoneChild(rot["count_childs"].toInt());
+
+    m_root->setState(stringToTodoState(root["state"].toString()));
+    m_root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
+    m_root->setcountDoneChild(rot["count_childs"].toInt());
     QJsonArray arr = rot["children"].toArray();
-    Remplissage_du_Model(arr,Root,TodoState::Ready_Todo,Root);
-    AddTask(Root);
+    Remplissage_du_Model(arr,m_root,m_root);
+    AddTask(m_root);
     return true;
 }
 void TodoModel::AddTask(TodoItem* x){
@@ -461,11 +461,11 @@ void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJson
         QJsonObject elt = voisin.toObject();
         if(elt["isComposite"].toBool()){
             Composite* eltchild = new Composite(elt["title"].toString(),elt["description"].toString(),nullptr);
-            eltchild->setState(TodoState::Not_Ready);
+            eltchild->setState(stringToTodoState(elt["state"].toString()));
             eltchild->setDueDate(QDate::fromString(elt["dueDate"].toString()));
             eltchild->setcountDoneChild(elt["count_childs"].toInt());
             QJsonArray arr1 = elt["children"].toArray();
-            Remplissage_du_Model(arr1,eltchild,TodoState::Not_Ready,Root_System);
+            Remplissage_du_Model(arr1,eltchild,Root_System);
             QJsonArray arrr1 = elt["nexts"].toArray();
             eltchild->addPrev(p);
             Remplissage_nexts(Root_System,eltchild,arrr1);
@@ -474,7 +474,7 @@ void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJson
         }
         else {
             TodoItem* eltt = new TodoItem(elt["title"].toString(),elt["description"].toString(),nullptr);
-            eltt->setState(TodoState::Not_Ready);
+            eltt->setState(stringToTodoState(elt["state"].toString()));
             eltt->setDueDate(QDate::fromString(elt["dueDate"].toString()));
             QJsonArray arrr = elt["nexts"].toArray();
             eltt->addPrev(p);
@@ -485,18 +485,18 @@ void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJson
     }
     return ;
 }
-void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState x , Composite* Root_System){
+void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , Composite* Root_System){
     for(QJsonValueRef inter : arr){
         QJsonObject rot = inter.toObject();
         if(rot["isComposite"].toBool()){
             Composite* Root = new Composite(rot["title"].toString(),rot["description"].toString(),CT);
-            Root->setState(x);
+            Root->setState(stringToTodoState(rot["state"].toString()));
             Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
             Root->setcountDoneChild(rot["count_childs"].toInt());
             QJsonArray arr1 = rot["children"].toArray();
             QJsonArray arr2 =  rot["nexts"].toArray();
             Remplissage_nexts(Root_System,Root,arr2);
-            Remplissage_du_Model(arr1 , Root , x , Root_System);
+            Remplissage_du_Model(arr1 , Root  , Root_System);
 
             CT->addChild(Root);
             AddTask(Root);
@@ -504,7 +504,7 @@ void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , TodoState 
         }
         else {
             TodoItem* Root = new TodoItem(rot["title"].toString(),rot["description"].toString(),nullptr);
-            Root->setState(x);
+            Root->setState(stringToTodoState(rot["state"].toString()));
             Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
             QJsonArray arr2 =  rot["nexts"].toArray();
             Remplissage_nexts(Root_System,Root,arr2);
@@ -525,15 +525,11 @@ QJsonObject serializeItem(TodoItem* item)
     obj["dueDate"] = item->getDueDate().toString(Qt::ISODate);
     obj["isComposite"] = item->isComposite();
     obj["count_prec"] = item->getPrevs().size();
-
-    // 🔁 NEXTS (petits JSON imbriqués)
     QJsonArray nexts;
     for (TodoItem* n : item->getNexts()) {
         nexts.append(serializeItem(n));
     }
     obj["nexts"] = nexts;
-
-    // 🌳 COMPOSITE → enfants récursifs
     if (item->isComposite()) {
         Composite* comp = static_cast<Composite*>(item);
 
@@ -541,7 +537,7 @@ QJsonObject serializeItem(TodoItem* item)
 
         QJsonArray children;
         for (TodoItem* c : comp->getChildren()) {
-            children.append(serializeItem(c)); // 🔁 récursif
+            children.append(serializeItem(c));
         }
         obj["children"] = children;
     }
@@ -554,14 +550,17 @@ bool TodoModel::exportToJson(const QString& filePath) const
 {
     if (m_tasks.isEmpty())
         return false;
-
-    Composite* root = dynamic_cast<Composite*>(m_tasks.first());
-    if (!root)
+    Composite* root = new Composite("Root","here the project begin ",nullptr);
+    for(auto it : m_tasks){
+        root->addChild(it);
+    }
+    if (!root){
         return false;
-
+    }
+    qDebug()<<root->getId() <<"root :=)"<<"\n";
     QJsonObject json;
     json["Name"] = Project_Name;
-    json["root"] = serializeItem(root); // 🌳 récursif
+    json["root"] = serializeItem(root);
 
     QJsonDocument doc(json);
 

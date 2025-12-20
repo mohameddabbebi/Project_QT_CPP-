@@ -52,6 +52,8 @@ private slots:
 
     void onTaskSelectionChanged(const QModelIndex &current, const QModelIndex &previous);
 
+    void on_actionAdd_SubTaskComposite_triggered();
+
 private:
 
     Ui::MainWindow *ui;

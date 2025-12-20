@@ -122,9 +122,8 @@ void MainWindow::on_actionOpen_triggered()
         m_hasUnsavedChanges = false;
         ui->treeView->expandAll();
         ui->statusBar->showMessage(tr("Project loaded successfully"), 3000);
-        for(auto task:m_model->getAllTasks()){
-            qDebug()<<"itemfeugyuae :"<<task->getId()<<"\n";
-        }
+        qDebug() << "Root rows:" << m_model->rowCount();
+        ui->treeView->expandAll();
     } else {
         QMessageBox::warning(this, tr("Error"),
                              tr("Failed to load project from: %1").arg(fileName));
@@ -304,7 +303,44 @@ void MainWindow::on_actionAddChild_triggered()
 
     ui->statusBar->showMessage(tr("Subtask added"), 2000);
 }
+void MainWindow::on_actionAdd_SubTaskComposite_triggered()
+{
+    QModelIndex current = ui->treeView->currentIndex();
 
+    if (!current.isValid()) {
+        QMessageBox::warning(
+            this,
+            tr("Add Subtask"),
+            tr("Please select a composite task to add a subtask."));
+        return;
+    }
+
+
+    TodoItem* parent = m_model->getTask(current);
+
+    if (!parent || !parent->isComposite()) {
+        QMessageBox::warning(
+            this,
+            tr("Add Subtask"),
+            tr("Selected task is not a composite.\n\n"
+               "Only composites can contain subtasks.\n"
+               "Use 'Add Composite' to create a composite project."));
+        return;
+    }
+
+
+    Composite* child = new Composite("",
+                                   tr("Subtask"),
+                                   tr("Subtask description"));
+
+
+    m_model->addChildTask(current, child);
+
+    m_hasUnsavedChanges = true;
+    ui->treeView->expand(current);
+
+    ui->statusBar->showMessage(tr("Subtask added"), 2000);
+}
 void MainWindow::on_actionAddComposite_triggered()
 {
 
@@ -527,3 +563,6 @@ void MainWindow::updateDetailPanelState(bool enabled)
     ui->prevsListWidget->setEnabled(enabled);
     ui->nextsListWidget->setEnabled(enabled);
 }
+
+
+

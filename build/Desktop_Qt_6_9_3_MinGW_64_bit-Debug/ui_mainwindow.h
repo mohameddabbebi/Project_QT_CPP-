@@ -50,6 +50,7 @@ public:
     QAction *actionAbout;
     QAction *actionAddChild;
     QAction *actionAddComposite;
+    QAction *actionAdd_SubTaskComposite;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_5;
@@ -119,6 +120,8 @@ public:
         actionAddChild->setObjectName("actionAddChild");
         actionAddComposite = new QAction(MainWindow);
         actionAddComposite->setObjectName("actionAddComposite");
+        actionAdd_SubTaskComposite = new QAction(MainWindow);
+        actionAdd_SubTaskComposite->setObjectName("actionAdd_SubTaskComposite");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
@@ -319,6 +322,7 @@ public:
         menuFichier->addAction(actionQuit);
         menuEdition->addAction(actionAddTask);
         menuEdition->addAction(actionAddChild);
+        menuEdition->addAction(actionAdd_SubTaskComposite);
         menuEdition->addAction(actionDelete);
         menuEdition->addAction(actionAddComposite);
         menuAbout->addAction(actionAbout);
@@ -328,8 +332,9 @@ public:
         toolBar->addAction(actionSaveAs);
         toolBar->addAction(actionImporter);
         toolBar->addAction(actionExporter);
-        toolBar->addAction(actionAddTask);
         toolBar->addAction(actionAddChild);
+        toolBar->addAction(actionAdd_SubTaskComposite);
+        toolBar->addAction(actionAddTask);
         toolBar->addAction(actionAddComposite);
         toolBar->addAction(actionDelete);
         toolBar->addAction(actionAbout);
@@ -372,6 +377,7 @@ public:
         actionAbout->setText(QCoreApplication::translate("MainWindow", "Info", nullptr));
         actionAddChild->setText(QCoreApplication::translate("MainWindow", "Add SubTask", nullptr));
         actionAddComposite->setText(QCoreApplication::translate("MainWindow", "Add Composite", nullptr));
+        actionAdd_SubTaskComposite->setText(QCoreApplication::translate("MainWindow", "Add SubTaskComposite", nullptr));
 #if QT_CONFIG(tooltip)
         centralwidget->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"justify\"><br/></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)
