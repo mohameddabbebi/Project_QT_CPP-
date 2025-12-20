@@ -326,6 +326,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNewProject">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentNew"/>
+   </property>
    <property name="text">
     <string>New Project</string>
    </property>
@@ -334,6 +337,9 @@
    </property>
   </action>
   <action name="actionOpen">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentOpen"/>
+   </property>
    <property name="text">
     <string>Open..</string>
    </property>
@@ -342,6 +348,9 @@
    </property>
   </action>
   <action name="actionSave">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentSave"/>
+   </property>
    <property name="text">
     <string>Save</string>
    </property>
@@ -350,6 +359,9 @@
    </property>
   </action>
   <action name="actionSaveAs">
+   <property name="icon">
+    <iconset theme="QIcon::ThemeIcon::DocumentSaveAs"/>
+   </property>
    <property name="text">
     <string>Save as</string>
    </property>

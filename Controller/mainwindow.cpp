@@ -115,14 +115,12 @@ void MainWindow::on_actionOpen_triggered()
     if (fileName.isEmpty()) {
         return;
     }
-
-
+    on_actionNewProject_triggered();
     if (m_model->importFromJson(fileName)) {
         m_currentFilePath = fileName;
         m_hasUnsavedChanges = false;
         ui->treeView->expandAll();
         ui->statusBar->showMessage(tr("Project loaded successfully"), 3000);
-        qDebug() << "Root rows:" << m_model->rowCount();
         ui->treeView->expandAll();
     } else {
         QMessageBox::warning(this, tr("Error"),
