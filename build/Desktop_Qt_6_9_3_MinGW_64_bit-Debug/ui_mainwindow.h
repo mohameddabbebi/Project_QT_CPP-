@@ -77,9 +77,9 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_8;
     QListWidget *prevsListWidget;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton;
     QVBoxLayout *verticalLayout_3;
-    QLabel *label_9;
-    QListWidget *nextsListWidget;
     QHBoxLayout *horizontalLayout_10;
     QSpacerItem *horizontalSpacer;
     QPushButton *saveButton;
@@ -245,27 +245,30 @@ public:
         verticalLayout->addWidget(label_8);
 
         prevsListWidget = new QListWidget(groupBox);
+        new QListWidgetItem(prevsListWidget);
         prevsListWidget->setObjectName("prevsListWidget");
         prevsListWidget->setMaximumSize(QSize(16777215, 100));
 
         verticalLayout->addWidget(prevsListWidget);
+
+        pushButton_2 = new QPushButton(groupBox);
+        pushButton_2->setObjectName("pushButton_2");
+        pushButton_2->setMaximumSize(QSize(100, 16777215));
+
+        verticalLayout->addWidget(pushButton_2);
+
+        pushButton = new QPushButton(groupBox);
+        pushButton->setObjectName("pushButton");
+        pushButton->setEnabled(true);
+        pushButton->setMaximumSize(QSize(100, 16777215));
+
+        verticalLayout->addWidget(pushButton);
 
 
         horizontalLayout_9->addLayout(verticalLayout);
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName("verticalLayout_3");
-        label_9 = new QLabel(groupBox);
-        label_9->setObjectName("label_9");
-
-        verticalLayout_3->addWidget(label_9);
-
-        nextsListWidget = new QListWidget(groupBox);
-        nextsListWidget->setObjectName("nextsListWidget");
-        nextsListWidget->setMaximumSize(QSize(16777215, 100));
-
-        verticalLayout_3->addWidget(nextsListWidget);
-
 
         horizontalLayout_9->addLayout(verticalLayout_3);
 
@@ -404,7 +407,13 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "Description :", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Dependencies", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Predecessors: ", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "Successors:", nullptr));
+
+        const bool __sortingEnabled = prevsListWidget->isSortingEnabled();
+        prevsListWidget->setSortingEnabled(false);
+        prevsListWidget->setSortingEnabled(__sortingEnabled);
+
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Edit", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Validate", nullptr));
         saveButton->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         cancelButton->setText(QCoreApplication::translate("MainWindow", "Cancel", nullptr));
         menuFichier->setTitle(QCoreApplication::translate("MainWindow", "Menu", nullptr));

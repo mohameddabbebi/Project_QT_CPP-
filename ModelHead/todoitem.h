@@ -46,7 +46,7 @@ public:
     void setDescription(const QString& description);
     void setState(TodoState state);
     void setDueDate(const QDate& date);
-
+    void setPrev(QList<TodoItem*> m);
     // Gestion des dépendances
     /**
      *Ajoute une tâche précédente (dépendance)

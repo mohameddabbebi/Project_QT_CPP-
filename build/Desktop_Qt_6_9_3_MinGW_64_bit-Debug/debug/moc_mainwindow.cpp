@@ -62,7 +62,11 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "QModelIndex",
         "current",
         "previous",
-        "on_actionAdd_SubTaskComposite_triggered"
+        "on_actionAdd_SubTaskComposite_triggered",
+        "on_prevsListWidget_currentItemChanged",
+        "QListWidgetItem*",
+        "on_pushButton_2_clicked",
+        "on_pushButton_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -108,6 +112,14 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         }}),
         // Slot 'on_actionAdd_SubTaskComposite_triggered'
         QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_prevsListWidget_currentItemChanged'
+        QtMocHelpers::SlotData<void(QListWidgetItem *, QListWidgetItem *)>(25, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 26, 22 }, { 0x80000000 | 26, 23 },
+        }}),
+        // Slot 'on_pushButton_2_clicked'
+        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_pushButton_clicked'
+        QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -149,6 +161,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 15: _t->on_searchBox_textChanged((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 16: _t->onTaskSelectionChanged((*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QModelIndex>>(_a[2]))); break;
         case 17: _t->on_actionAdd_SubTaskComposite_triggered(); break;
+        case 18: _t->on_prevsListWidget_currentItemChanged((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[2]))); break;
+        case 19: _t->on_pushButton_2_clicked(); break;
+        case 20: _t->on_pushButton_clicked(); break;
         default: ;
         }
     }
@@ -173,14 +188,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 18)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 18;
+        _id -= 21;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 18)
+        if (_id < 21)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 18;
+        _id -= 21;
     }
     return _id;
 }

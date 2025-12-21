@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_model(new TodoModel(this))
     , m_currentTask(nullptr)
     , m_hasUnsavedChanges(false)
+    ,m_editPrevsMode(false)
 {
 
     ui->setupUi(this);
@@ -521,11 +522,11 @@ void MainWindow::loadTaskDetails(TodoItem* task)
     }
 
 
-    ui->nextsListWidget->clear();
+    /*ui->nextsListWidget->clear();
     for (TodoItem* next : task->getNexts()) {
         ui->nextsListWidget->addItem(
             QString("→ %1").arg(next->getTitle()));
-    }
+    }*/
 
 
     if (task->isComposite()) {
@@ -547,7 +548,7 @@ void MainWindow::clearDetailPanel()
     ui->dueDateEdit->setDate(QDate::currentDate().addDays(7));
     ui->stateCombo->setCurrentIndex(0);
     ui->prevsListWidget->clear();
-    ui->nextsListWidget->clear();
+   //ui->nextsListWidget->clear();
 }
 
 void MainWindow::updateDetailPanelState(bool enabled)
@@ -559,8 +560,98 @@ void MainWindow::updateDetailPanelState(bool enabled)
     ui->saveButton->setEnabled(enabled);
     ui->cancelButton->setEnabled(enabled);
     ui->prevsListWidget->setEnabled(enabled);
-    ui->nextsListWidget->setEnabled(enabled);
+    //ui->nextsListWidget->setEnabled(enabled);
 }
 
 
+
+
+void MainWindow::on_prevsListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    Q_UNUSED(previous);
+
+    if (!current)
+        return;
+
+    int id = current->data(Qt::UserRole).toInt();
+    qDebug() << "Prev sélectionné ID =" << id;
+}
+
+void MainWindow::addPrevFromAllItems()
+{
+    ui->prevsListWidget->clear();
+
+    if (!m_currentTask)
+        return;
+
+    const QList<TodoItem*>& allTasks = m_model->getAllTasks();
+    const QList<TodoItem*>& currentPrevs = m_currentTask->getPrevs();
+
+    for (TodoItem* task : allTasks) {
+
+        if (task == m_currentTask)
+            continue;
+
+        QListWidgetItem* item =
+            new QListWidgetItem(task->getTitle());
+
+        item->setData(Qt::UserRole,
+                      QVariant::fromValue<void*>(task));
+
+        if (m_editPrevsMode) {
+            item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+            item->setCheckState(
+                currentPrevs.contains(task)
+                    ? Qt::Checked
+                    : Qt::Unchecked
+                );
+        }
+
+        ui->prevsListWidget->addItem(item);
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if (!m_currentTask) {
+        QMessageBox::warning(
+            this,
+            tr("No task selected"),
+            tr("Please select a task first.")
+            );
+        return;
+    }
+
+    m_editPrevsMode = true;
+    addPrevFromAllItems();
+}
+
+
+void MainWindow::on_pushButton_clicked()
+{
+
+    if (!m_currentTask)
+        return;
+    QList<TodoItem*> newPrevs;
+
+    for (int i = 0; i < ui->prevsListWidget->count(); ++i) {
+        QListWidgetItem* item = ui->prevsListWidget->item(i);
+
+        if (item->checkState() == Qt::Checked) {
+            TodoItem* prev =
+                static_cast<TodoItem*>(
+                    item->data(Qt::UserRole).value<void*>()
+                    );
+
+            if (prev)
+                newPrevs.append(prev);
+        }
+    }
+    m_currentTask->setPrev(newPrevs);
+
+    m_editPrevsMode = false;
+    addPrevFromAllItems();
+
+    m_hasUnsavedChanges = true;
+}
 

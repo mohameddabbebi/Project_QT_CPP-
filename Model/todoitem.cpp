@@ -199,3 +199,13 @@ void TodoItem::updateStateFromDependencies()
         setState(TodoState::Ready_Todo);
     }
 }
+void TodoItem::setPrev(QList<TodoItem*> m){
+    m_prevs=m;
+    if(m.size()>0){
+        m_state=TodoState::Not_Ready;
+    }
+    for(auto it:m){
+        it->addNext(this);
+    }
+    return ;
+}

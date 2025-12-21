@@ -8,7 +8,7 @@
 #include "../ModelHead/todomodel.h"
 #include "../ModelHead/todoitem.h"
 #include "../ModelHead/composite.h"
-
+#include <QListWidgetItem>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,7 +21,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    void addPrevFromAllItems() ;
 private slots:
 
 
@@ -54,13 +54,18 @@ private slots:
 
     void on_actionAdd_SubTaskComposite_triggered();
 
+    void on_prevsListWidget_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
+
+    void on_pushButton_2_clicked();
+
+    void on_pushButton_clicked();
+
 private:
 
     Ui::MainWindow *ui;
 
-
     TodoModel* m_model;
-
+    bool m_editPrevsMode;
 
     TodoItem* m_currentTask;
     QString m_currentFilePath;
