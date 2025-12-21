@@ -118,6 +118,7 @@ void TodoItem::setDescription(const QString& description)
 
 void TodoItem::setState(TodoState state)
 {
+
     if (m_state != state) {
         m_state = state;
 

@@ -135,19 +135,19 @@ QVariant TodoModel::data(const QModelIndex &index, int role) const
         }
     }
 
-    // Couleur de fond selon l'état
-    if (role == Qt::BackgroundRole && index.column() == StateColumn) {
+    if (role == Qt::ForegroundRole && index.column() == StateColumn) {
         switch (item->getState()) {
         case TodoState::Not_Ready:
-            return QBrush(QColor(255, 200, 200)); // Rouge clair
+            return QBrush(QColor("#c0392b")); // rouge foncé
         case TodoState::Ready_Todo:
-            return QBrush(QColor(255, 255, 200)); // Jaune clair
+            return QBrush(QColor("#f39c12")); // orange
         case TodoState::In_Progress:
-            return QBrush(QColor(200, 220, 255)); // Bleu clair
+            return QBrush(QColor("#2980b9")); // bleu
         case TodoState::Done:
-            return QBrush(QColor(200, 255, 200)); // Vert clair
+            return QBrush(QColor("#27ae60")); // vert
         }
     }
+
 
     // Affichage du pourcentage pour les composites
     if (role == Qt::DisplayRole && index.column() == StateColumn && item->isComposite()) {
@@ -157,8 +157,10 @@ QVariant TodoModel::data(const QModelIndex &index, int role) const
             .arg(comp->getCompletionPercentage());
     }
 
+
     return QVariant();
 }
+
 
 QVariant TodoModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -181,19 +183,31 @@ QVariant TodoModel::headerData(int section, Qt::Orientation orientation, int rol
 
 Qt::ItemFlags TodoModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid()) {
+    if (!index.isValid())
         return Qt::NoItemFlags;
-    }
 
-    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+    TodoItem* item = static_cast<TodoItem*>(index.internalPointer());
+    if (!item)
+        return Qt::NoItemFlags;
 
-    // Toutes les colonnes sauf l'état sont éditables
+    Qt::ItemFlags flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+
+
     if (index.column() != StateColumn) {
         flags |= Qt::ItemIsEditable;
+        return flags;
     }
 
+
+    if (item->getCountPrec() > 0) {
+        return flags;
+    }
+
+
+    flags |= Qt::ItemIsEditable;
     return flags;
 }
+
 
 bool TodoModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
@@ -421,7 +435,6 @@ Composite* TodoModel::findParentRecursive(TodoItem* task, Composite* parent) con
 
     return nullptr;
 }
-void Remplissage_du_Model(QJsonArray arr , Composite* CT  , Composite* Root_System);
 bool TodoModel::importFromJson(const QString& filePath)
 {
     QFile file(filePath);
@@ -436,54 +449,63 @@ bool TodoModel::importFromJson(const QString& filePath)
 
     if (error.error != QJsonParseError::NoError)
         return false;
+ clear();
+    beginResetModel();
+
 
     QJsonObject root = doc.object();
     this->Project_Name = root["Name"].toString();
     QJsonObject rot = root["root"].toObject();
-
-    m_root->setState(stringToTodoState(root["state"].toString()));
-    m_root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
+   m_root->setTitle(Project_Name);
+    m_root->setDescription(rot["description"].toString());
+    m_root->setState(stringToTodoState(rot["state"].toString()));
+    m_root->setDueDate(QDate::fromString(rot["dueDate"].toString(),Qt::ISODate));
     m_root->setcountDoneChild(rot["count_childs"].toInt());
     QJsonArray arr = rot["children"].toArray();
+    registerTask(m_root);
     Remplissage_du_Model(arr,m_root,m_root);
-    AddTask(m_root);
+    for (auto& pair : pendingNexts) {
+        Remplissage_nexts(m_root, pair.first, pair.second);
+    }
+    pendingNexts.clear();
+
+
+
+
+    endResetModel();
     return true;
 }
-void TodoModel::AddTask(TodoItem* x){
-    this->m_tasks.append(x);
-    return ;
-}
 
 
 
-void TodoModel::Remplissage_nexts(Composite * Root_System , TodoItem * p , QJsonArray arr2){
-    for(QJsonValueRef voisin : arr2){
-        QJsonObject elt = voisin.toObject();
-        if(elt["isComposite"].toBool()){
-            Composite* eltchild = new Composite(elt["title"].toString(),elt["description"].toString(),nullptr);
-            eltchild->setState(stringToTodoState(elt["state"].toString()));
-            eltchild->setDueDate(QDate::fromString(elt["dueDate"].toString()));
-            eltchild->setcountDoneChild(elt["count_childs"].toInt());
-            QJsonArray arr1 = elt["children"].toArray();
-            Remplissage_du_Model(arr1,eltchild,Root_System);
-            QJsonArray arrr1 = elt["nexts"].toArray();
-            eltchild->addPrev(p);
-            Remplissage_nexts(Root_System,eltchild,arrr1);
-            p->addNext(eltchild);
-            AddTask(eltchild);
+
+
+void TodoModel::Remplissage_nexts(
+    Composite* Root_System,
+    TodoItem* p,
+    QJsonArray arr2)
+{
+    for (const QJsonValue& voisin : arr2) {
+
+
+        QString nextTitle = voisin.toString();
+
+        TodoItem* nextTask = nullptr;
+        for (TodoItem* t : m_tasks) {
+            if (t->getTitle() == nextTitle) {
+                nextTask = t;
+                break;
+            }
+        }
+
+        if (nextTask) {
+            p->addNext(nextTask);
+            nextTask->addPrev(p);
         }
         else {
-            TodoItem* eltt = new TodoItem(elt["title"].toString(),elt["description"].toString(),nullptr);
-            eltt->setState(stringToTodoState(elt["state"].toString()));
-            eltt->setDueDate(QDate::fromString(elt["dueDate"].toString()));
-            QJsonArray arrr = elt["nexts"].toArray();
-            eltt->addPrev(p);
-            Remplissage_nexts(Root_System,eltt,arrr);
-            p->addNext(eltt);
-            AddTask(eltt);
+            qWarning() << "Next task not found:" << nextTitle;
         }
     }
-    return ;
 }
 void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , Composite* Root_System){
     for(QJsonValueRef inter : arr){
@@ -491,28 +513,32 @@ void TodoModel::Remplissage_du_Model(QJsonArray arr , Composite* CT , Composite*
         if(rot["isComposite"].toBool()){
             Composite* Root = new Composite(rot["title"].toString(),rot["description"].toString(),CT);
             Root->setState(stringToTodoState(rot["state"].toString()));
-            Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
+            Root->setDueDate(QDate::fromString(rot["dueDate"].toString(),Qt::ISODate));
             Root->setcountDoneChild(rot["count_childs"].toInt());
             QJsonArray arr1 = rot["children"].toArray();
             QJsonArray arr2 =  rot["nexts"].toArray();
-            Remplissage_nexts(Root_System,Root,arr2);
+            pendingNexts.append({ Root, arr2 });
+
             Remplissage_du_Model(arr1 , Root  , Root_System);
 
+
             CT->addChild(Root);
-            AddTask(Root);
+            registerTask(Root);
 
         }
         else {
-            TodoItem* Root = new TodoItem(rot["title"].toString(),rot["description"].toString(),nullptr);
+            TodoItem* Root = new TodoItem(rot["title"].toString(), rot["description"].toString(), QDate(), {}, {}, CT);
             Root->setState(stringToTodoState(rot["state"].toString()));
-            Root->setDueDate(QDate::fromString(rot["dueDate"].toString()));
+            Root->setDueDate(QDate::fromString(rot["dueDate"].toString(),Qt::ISODate));
             QJsonArray arr2 =  rot["nexts"].toArray();
-            Remplissage_nexts(Root_System,Root,arr2);
+            pendingNexts.append({ Root, arr2 });
             CT->addChild(Root);
-            AddTask(Root);
+            registerTask(Root);
         }
     }
 }
+
+
 
 
 QJsonObject serializeItem(TodoItem* item)
@@ -527,7 +553,7 @@ QJsonObject serializeItem(TodoItem* item)
     obj["count_prec"] = item->getPrevs().size();
     QJsonArray nexts;
     for (TodoItem* n : item->getNexts()) {
-        nexts.append(serializeItem(n));
+        nexts.append(n->getTitle());
     }
     obj["nexts"] = nexts;
     if (item->isComposite()) {
@@ -550,17 +576,9 @@ bool TodoModel::exportToJson(const QString& filePath) const
 {
     if (m_tasks.isEmpty())
         return false;
-    Composite* root = new Composite("Root","here the project begin ",nullptr);
-    for(auto it : m_tasks){
-        root->addChild(it);
-    }
-    if (!root){
-        return false;
-    }
-    qDebug()<<root->getId() <<"root :=)"<<"\n";
     QJsonObject json;
     json["Name"] = Project_Name;
-    json["root"] = serializeItem(root);
+    json["root"] = serializeItem(m_root);
 
     QJsonDocument doc(json);
 

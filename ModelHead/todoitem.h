@@ -82,6 +82,7 @@ public:
     virtual bool isComposite() const { return false; }
     virtual bool isLeaf() const { return true; }
 
+
 signals:
     /**
      *  Signal émis lorsque les données de la tâche changent
@@ -92,6 +93,7 @@ signals:
      * Signal émis lorsque l'état change
      */
     void stateChanged(TodoState newState);
+
 
 protected:
     QString id ;

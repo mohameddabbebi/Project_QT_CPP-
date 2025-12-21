@@ -329,8 +329,8 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
 
 
     Composite* child = new Composite("",
-                                   tr("Subtask"),
-                                   tr("Subtask description"));
+                                     tr("Subtask"),
+                                     tr("Subtask description"));
 
 
     m_model->addChildTask(current, child);
@@ -457,7 +457,19 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
     if (!m_currentTask) {
         return;
     }
+    // 🔒 BLOQUAGE FORT
+    if (m_currentTask->getCountPrec() > 0) {
+        ui->stateCombo->blockSignals(true);
+        loadTaskDetails(m_currentTask); // restaurer l'état réel
+        ui->stateCombo->blockSignals(false);
 
+        QMessageBox::information(
+            this,
+            tr("Forbidden action"),
+            tr("Unable to change the state.\n"
+               "The predecessors are not yet finished."));
+        return;
+    }
 
     TodoState newState = static_cast<TodoState>(
         ui->stateCombo->itemData(index).toInt());
@@ -503,6 +515,20 @@ void MainWindow::loadTaskDetails(TodoItem* task)
     ui->titleEdit->setText(task->getTitle());
     ui->descriptionEdit->setPlainText(task->getDescription());
     ui->dueDateEdit->setDate(task->getDueDate());
+    // 🔒 Bloquer le changement d'état si prédécesseurs non terminés
+    bool canChangeState = (task->getCountPrec() == 0);
+
+    // 🔒 Désactivation totale
+    ui->stateCombo->setEnabled(canChangeState);
+
+    // 🛈 Tooltip explicatif
+    if (!canChangeState) {
+        ui->stateCombo->setToolTip(
+            tr("Impossible de modifier l’état :\n"
+               "Tous les prédécesseurs ne sont pas terminés."));
+    } else {
+        ui->stateCombo->setToolTip(tr("Modifier l’état de la tâche"));
+    }
 
 
     for (int i = 0; i < ui->stateCombo->count(); ++i) {
@@ -548,7 +574,7 @@ void MainWindow::clearDetailPanel()
     ui->dueDateEdit->setDate(QDate::currentDate().addDays(7));
     ui->stateCombo->setCurrentIndex(0);
     ui->prevsListWidget->clear();
-   //ui->nextsListWidget->clear();
+    //ui->nextsListWidget->clear();
 }
 
 void MainWindow::updateDetailPanelState(bool enabled)
@@ -654,4 +680,3 @@ void MainWindow::on_pushButton_clicked()
 
     m_hasUnsavedChanges = true;
 }
-

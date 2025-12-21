@@ -465,12 +465,23 @@ debug/moc_mainwindow.cpp: ../../ControllerHead/mainwindow.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.10.1/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTreeView \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtreeview.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QModelIndex \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
+		../../ModelHead/todomodel.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
+		../../ModelHead/todoitem.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
+		../../ModelHead/TodoState.h \
+		../../ModelHead/composite.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyleoption.h \
@@ -482,40 +493,6 @@ debug/moc_mainwindow.cpp: ../../ControllerHead/mainwindow.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyle.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTextEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QDateEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qdatetimeedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qtimezone.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QSplitter \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qsplitter.h \
-		../../ModelHead/todomodel.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
-		../../ModelHead/todoitem.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
-		../../ModelHead/TodoState.h \
-		../../ModelHead/composite.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.10.1/mingw_64/bin/moc.exe
 	C:\Qt\6.10.1\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/asus/Desktop/STL/QtProject/project/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.10.1/mingw_64/mkspecs/win32-g++ -IC:/Users/asus/Desktop/STL/QtProject/project -IC:/Qt/6.10.1/mingw_64/include -IC:/Qt/6.10.1/mingw_64/include/QtWidgets -IC:/Qt/6.10.1/mingw_64/include/QtGui -IC:/Qt/6.10.1/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -IC:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include ..\..\ControllerHead\mainwindow.h -o debug\moc_mainwindow.cpp
@@ -1157,12 +1134,23 @@ debug/main.o: ../../Controller/main.cpp C:/Qt/6.10.1/mingw_64/include/QtWidgets/
 		C:/Qt/6.10.1/mingw_64/include/QtGui/QTransform \
 		C:/Qt/6.10.1/mingw_64/include/QtGui/qscreen_platform.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTreeView \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtreeview.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QModelIndex \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
+		../../ModelHead/todomodel.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
+		../../ModelHead/todoitem.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
+		../../ModelHead/TodoState.h \
+		../../ModelHead/composite.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyleoption.h \
@@ -1173,41 +1161,7 @@ debug/main.o: ../../Controller/main.cpp C:/Qt/6.10.1/mingw_64/include/QtWidgets/
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyle.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabbar.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTextEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QDateEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qdatetimeedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qtimezone.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QSplitter \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qsplitter.h \
-		../../ModelHead/todomodel.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
-		../../ModelHead/todoitem.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
-		../../ModelHead/TodoState.h \
-		../../ModelHead/composite.h
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qrubberband.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\Controller\main.cpp
 
 debug/mainwindow.o: ../../Controller/mainwindow.cpp ../../ControllerHead/mainwindow.h \
@@ -1411,12 +1365,23 @@ debug/mainwindow.o: ../../Controller/mainwindow.cpp ../../ControllerHead/mainwin
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.10.1/mingw_64/include/QtGui/qguiapplication_platform.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTreeView \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtreeview.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QModelIndex \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
+		../../ModelHead/todomodel.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
+		../../ModelHead/todoitem.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
+		../../ModelHead/TodoState.h \
+		../../ModelHead/composite.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidgetItem \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyleoption.h \
@@ -1428,56 +1393,55 @@ debug/mainwindow.o: ../../Controller/mainwindow.cpp ../../ControllerHead/mainwin
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstyle.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qpen.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTextEdit \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtextedit.h \
+		ui_mainwindow.h \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/QAction \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QComboBox \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qcombobox.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QDateEdit \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qdatetimeedit.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qtimezone.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qdatetime.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/qcalendar.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qcombobox.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QGridLayout \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QGroupBox \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QHBoxLayout \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QHeaderView \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qheaderview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.10.1/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextdocument.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/qpen.h \
+		C:/Qt/6.10.1/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QListWidget \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistwidget.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlistview.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QSplitter \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qsplitter.h \
-		../../ModelHead/todomodel.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QAbstractItemModel \
-		../../ModelHead/todoitem.h \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QString \
-		C:/Qt/6.10.1/mingw_64/include/QtCore/QDate \
-		../../ModelHead/TodoState.h \
-		../../ModelHead/composite.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QMenu \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qmenu.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QMenuBar \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qmenubar.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qmenu.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QToolBar \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtoolbar.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QSpacerItem \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QStatusBar \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qstatusbar.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTextEdit \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtextedit.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QToolBar \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtoolbar.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QTreeView \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qtreeview.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QVBoxLayout \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QHBoxLayout \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QGridLayout \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QGroupBox \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qgroupbox.h \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QMessageBox \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qmessagebox.h \
 		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qdialog.h \
@@ -1489,9 +1453,10 @@ debug/mainwindow.o: ../../Controller/mainwindow.cpp ../../ControllerHead/mainwin
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qfiledevice.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qfile.h \
 		C:/Qt/6.10.1/mingw_64/include/QtCore/qfileinfo.h \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QHeaderView \
-		C:/Qt/6.10.1/mingw_64/include/QtWidgets/qheaderview.h \
-		C:/Qt/6.10.1/mingw_64/include/QtGui/QIcon
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QDir \
+		C:/Qt/6.10.1/mingw_64/include/QtWidgets/QAbstractItemView \
+		C:/Qt/6.10.1/mingw_64/include/QtCore/QItemSelectionModel
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\..\Controller\mainwindow.cpp
 
 debug/todoitem.o: ../../Model/todoitem.cpp ../../ModelHead/todoitem.h \

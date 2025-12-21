@@ -63,7 +63,7 @@ public:
 
     const QList<TodoItem*>& getAllTasks() const { return m_tasks; }
 
-    void AddTask(TodoItem* x);
+
     Composite* getRoot() const { return m_root; }
 
     bool importFromJson(const QString& filePath);
@@ -88,11 +88,17 @@ private:
 
 
     Composite* findParentRecursive(TodoItem* task, Composite* parent) const;
+    void buildTasksFromJson(const QJsonArray& arr, Composite* parent, QMap<QString, TodoItem*>& taskMap);
+    void restoreDependencies(const QJsonArray& arr, const QMap<QString, TodoItem*>& taskMap);
+    QJsonObject serializeComposite(Composite* comp) const;
+    QJsonObject serializeTask(TodoItem* task) const;
+
 
 private:
     QString Project_Name;
     Composite* m_root;
     QList<TodoItem*> m_tasks;
+    QList<QPair<TodoItem*, QJsonArray>> pendingNexts;
 };
 
 #endif

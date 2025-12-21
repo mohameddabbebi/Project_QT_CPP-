@@ -72,6 +72,8 @@ private:
     bool m_hasUnsavedChanges;
 
 
+
+
     void setupConnections();
     void setupStateComboBox();
     void setupTreeView();

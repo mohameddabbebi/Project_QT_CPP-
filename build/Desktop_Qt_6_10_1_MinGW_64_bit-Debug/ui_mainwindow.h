@@ -50,6 +50,7 @@ public:
     QAction *actionAbout;
     QAction *actionAddChild;
     QAction *actionAddComposite;
+    QAction *actionAdd_SubTaskComposite;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_5;
@@ -76,9 +77,9 @@ public:
     QVBoxLayout *verticalLayout;
     QLabel *label_8;
     QListWidget *prevsListWidget;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton;
     QVBoxLayout *verticalLayout_3;
-    QLabel *label_9;
-    QListWidget *nextsListWidget;
     QHBoxLayout *horizontalLayout_10;
     QSpacerItem *horizontalSpacer;
     QPushButton *saveButton;
@@ -97,12 +98,20 @@ public:
         MainWindow->resize(1200, 700);
         actionNewProject = new QAction(MainWindow);
         actionNewProject->setObjectName("actionNewProject");
+        QIcon icon(QIcon::fromTheme(QIcon::ThemeIcon::DocumentNew));
+        actionNewProject->setIcon(icon);
         actionOpen = new QAction(MainWindow);
         actionOpen->setObjectName("actionOpen");
+        QIcon icon1(QIcon::fromTheme(QIcon::ThemeIcon::DocumentOpen));
+        actionOpen->setIcon(icon1);
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName("actionSave");
+        QIcon icon2(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSave));
+        actionSave->setIcon(icon2);
         actionSaveAs = new QAction(MainWindow);
         actionSaveAs->setObjectName("actionSaveAs");
+        QIcon icon3(QIcon::fromTheme(QIcon::ThemeIcon::DocumentSaveAs));
+        actionSaveAs->setIcon(icon3);
         actionImporter = new QAction(MainWindow);
         actionImporter->setObjectName("actionImporter");
         actionExporter = new QAction(MainWindow);
@@ -119,6 +128,8 @@ public:
         actionAddChild->setObjectName("actionAddChild");
         actionAddComposite = new QAction(MainWindow);
         actionAddComposite->setObjectName("actionAddComposite");
+        actionAdd_SubTaskComposite = new QAction(MainWindow);
+        actionAdd_SubTaskComposite->setObjectName("actionAdd_SubTaskComposite");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
@@ -234,27 +245,30 @@ public:
         verticalLayout->addWidget(label_8);
 
         prevsListWidget = new QListWidget(groupBox);
+        new QListWidgetItem(prevsListWidget);
         prevsListWidget->setObjectName("prevsListWidget");
         prevsListWidget->setMaximumSize(QSize(16777215, 100));
 
         verticalLayout->addWidget(prevsListWidget);
+
+        pushButton_2 = new QPushButton(groupBox);
+        pushButton_2->setObjectName("pushButton_2");
+        pushButton_2->setMaximumSize(QSize(100, 16777215));
+
+        verticalLayout->addWidget(pushButton_2);
+
+        pushButton = new QPushButton(groupBox);
+        pushButton->setObjectName("pushButton");
+        pushButton->setEnabled(true);
+        pushButton->setMaximumSize(QSize(100, 16777215));
+
+        verticalLayout->addWidget(pushButton);
 
 
         horizontalLayout_9->addLayout(verticalLayout);
 
         verticalLayout_3 = new QVBoxLayout();
         verticalLayout_3->setObjectName("verticalLayout_3");
-        label_9 = new QLabel(groupBox);
-        label_9->setObjectName("label_9");
-
-        verticalLayout_3->addWidget(label_9);
-
-        nextsListWidget = new QListWidget(groupBox);
-        nextsListWidget->setObjectName("nextsListWidget");
-        nextsListWidget->setMaximumSize(QSize(16777215, 100));
-
-        verticalLayout_3->addWidget(nextsListWidget);
-
 
         horizontalLayout_9->addLayout(verticalLayout_3);
 
@@ -319,6 +333,7 @@ public:
         menuFichier->addAction(actionQuit);
         menuEdition->addAction(actionAddTask);
         menuEdition->addAction(actionAddChild);
+        menuEdition->addAction(actionAdd_SubTaskComposite);
         menuEdition->addAction(actionDelete);
         menuEdition->addAction(actionAddComposite);
         menuAbout->addAction(actionAbout);
@@ -328,8 +343,9 @@ public:
         toolBar->addAction(actionSaveAs);
         toolBar->addAction(actionImporter);
         toolBar->addAction(actionExporter);
-        toolBar->addAction(actionAddTask);
         toolBar->addAction(actionAddChild);
+        toolBar->addAction(actionAdd_SubTaskComposite);
+        toolBar->addAction(actionAddTask);
         toolBar->addAction(actionAddComposite);
         toolBar->addAction(actionDelete);
         toolBar->addAction(actionAbout);
@@ -372,6 +388,7 @@ public:
         actionAbout->setText(QCoreApplication::translate("MainWindow", "Info", nullptr));
         actionAddChild->setText(QCoreApplication::translate("MainWindow", "Add SubTask", nullptr));
         actionAddComposite->setText(QCoreApplication::translate("MainWindow", "Add Composite", nullptr));
+        actionAdd_SubTaskComposite->setText(QCoreApplication::translate("MainWindow", "Add SubTaskComposite", nullptr));
 #if QT_CONFIG(tooltip)
         centralwidget->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"justify\"><br/></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)
@@ -390,7 +407,13 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "Description :", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Dependencies", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Predecessors: ", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "Successors:", nullptr));
+
+        const bool __sortingEnabled = prevsListWidget->isSortingEnabled();
+        prevsListWidget->setSortingEnabled(false);
+        prevsListWidget->setSortingEnabled(__sortingEnabled);
+
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "Edit", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Validate", nullptr));
         saveButton->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         cancelButton->setText(QCoreApplication::translate("MainWindow", "Cancel", nullptr));
         menuFichier->setTitle(QCoreApplication::translate("MainWindow", "Menu", nullptr));
