@@ -60,6 +60,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_stateCombo_activated(int index);
+
 private:
 
     Ui::MainWindow *ui;

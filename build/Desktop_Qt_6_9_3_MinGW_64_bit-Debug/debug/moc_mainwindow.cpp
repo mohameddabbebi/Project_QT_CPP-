@@ -66,7 +66,8 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "on_prevsListWidget_currentItemChanged",
         "QListWidgetItem*",
         "on_pushButton_2_clicked",
-        "on_pushButton_clicked"
+        "on_pushButton_clicked",
+        "on_stateCombo_activated"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -120,6 +121,10 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_pushButton_clicked'
         QtMocHelpers::SlotData<void()>(28, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'on_stateCombo_activated'
+        QtMocHelpers::SlotData<void(int)>(29, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 17 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -164,7 +169,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 18: _t->on_prevsListWidget_currentItemChanged((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[2]))); break;
         case 19: _t->on_pushButton_2_clicked(); break;
         case 20: _t->on_pushButton_clicked(); break;
-        default: ;
+                default: ;
         }
     }
 }
@@ -188,14 +193,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 21)
+        if (_id < 22)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 22;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 21)
+        if (_id < 22)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 21;
+        _id -= 22;
     }
     return _id;
 }

@@ -416,8 +416,9 @@ void MainWindow::onTaskSelectionChanged(
 
     TodoItem* task = m_model->getTask(current);
     if (task) {
-        loadTaskDetails(task);
+
         updateDetailPanelState(true);
+        loadTaskDetails(task);
     }
 }
 
@@ -463,11 +464,7 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
         loadTaskDetails(m_currentTask); // restaurer l'état réel
         ui->stateCombo->blockSignals(false);
 
-        QMessageBox::information(
-            this,
-            tr("Forbidden action"),
-            tr("Unable to change the state.\n"
-               "The predecessors are not yet finished."));
+
         return;
     }
 
@@ -517,7 +514,9 @@ void MainWindow::loadTaskDetails(TodoItem* task)
     ui->dueDateEdit->setDate(task->getDueDate());
     // 🔒 Bloquer le changement d'état si prédécesseurs non terminés
     bool canChangeState = (task->getCountPrec() == 0);
-
+    /*if(canChangeState){
+        qDebug()<<"lina lina";
+    }*/
     // 🔒 Désactivation totale
     ui->stateCombo->setEnabled(canChangeState);
 
@@ -582,7 +581,7 @@ void MainWindow::updateDetailPanelState(bool enabled)
     ui->titleEdit->setEnabled(enabled);
     ui->descriptionEdit->setEnabled(enabled);
     ui->dueDateEdit->setEnabled(enabled);
-    ui->stateCombo->setEnabled(enabled);
+   // ui->stateCombo->setEnabled(enabled);
     ui->saveButton->setEnabled(enabled);
     ui->cancelButton->setEnabled(enabled);
     ui->prevsListWidget->setEnabled(enabled);
@@ -668,7 +667,6 @@ void MainWindow::on_pushButton_clicked()
                 static_cast<TodoItem*>(
                     item->data(Qt::UserRole).value<void*>()
                     );
-
             if (prev)
                 newPrevs.append(prev);
         }

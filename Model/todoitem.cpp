@@ -204,6 +204,7 @@ void TodoItem::setPrev(QList<TodoItem*> m){
     m_prevs=m;
     if(m.size()>0){
         m_state=TodoState::Not_Ready;
+        m_countPrec=m.size();
     }
     for(auto it:m){
         it->addNext(this);
