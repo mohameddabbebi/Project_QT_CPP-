@@ -275,10 +275,7 @@ void MainWindow::on_actionAddChild_triggered()
     QModelIndex current = ui->treeView->currentIndex();
 
     if (!current.isValid()) {
-        QMessageBox::warning(
-            this,
-            tr("Add Subtask"),
-            tr("Please select a composite task to add a subtask."));
+        on_actionAddTask_triggered();
         return;
     }
 
@@ -314,10 +311,7 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
     QModelIndex current = ui->treeView->currentIndex();
 
     if (!current.isValid()) {
-        QMessageBox::warning(
-            this,
-            tr("Add Subtask"),
-            tr("Please select a composite task to add a subtask."));
+        on_actionAddComposite_triggered();
         return;
     }
 
