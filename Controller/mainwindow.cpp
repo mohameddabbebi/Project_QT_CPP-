@@ -6,17 +6,23 @@
 #include <QDir>
 #include <QAbstractItemView>
 #include <QItemSelectionModel>
+#include "todofilterproxymodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_model(new TodoModel(this))
+    , m_proxyModel(new TodoFilterProxyModel(this))  // ✅ CRÉER le proxy
     , m_currentTask(nullptr)
     , m_hasUnsavedChanges(false)
-    ,m_editPrevsMode(false)
+    , m_editPrevsMode(false)
 {
-
     ui->setupUi(this);
+
+    // Configurer le proxy
+    m_proxyModel->setSourceModel(m_model);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setFilterKeyColumn(-1);
 
 
     setupTreeView();
@@ -41,7 +47,7 @@ MainWindow::~MainWindow()
 void MainWindow::setupTreeView()
 {
 
-    ui->treeView->setModel(m_model);
+   ui->treeView->setModel(m_proxyModel);
 
 
     ui->treeView->setColumnWidth(0, 300);  // Title
@@ -251,9 +257,9 @@ void MainWindow::on_actionAbout_triggered()
 
 void MainWindow::on_actionAddTask_triggered()
 {
-
+QString title = tr("Task %1").arg(m_taskCounter++);
     TodoItem* task = new TodoItem("",
-                                  tr("New Task"),
+                                  title,
                                   tr("Task description"));
 
     m_model->addRootTask(task);
@@ -261,7 +267,7 @@ void MainWindow::on_actionAddTask_triggered()
     m_hasUnsavedChanges = true;
     ui->treeView->expandAll();
 
-    ui->statusBar->showMessage(tr("Root task added"), 2000);
+    ui->statusBar->showMessage(tr("Root task added: %1").arg(title), 2000);
 }
 
 void MainWindow::on_actionAddChild_triggered()
@@ -277,7 +283,8 @@ void MainWindow::on_actionAddChild_triggered()
     }
 
 
-    TodoItem* parent = m_model->getTask(current);
+    QModelIndex sourceIndex = mapToSource(current);
+    TodoItem* parent = m_model->getTask(sourceIndex);
 
     if (!parent || !parent->isComposite()) {
         QMessageBox::warning(
@@ -289,13 +296,13 @@ void MainWindow::on_actionAddChild_triggered()
         return;
     }
 
-
+  QString title = tr("SubTask %1").arg(m_subtaskCounter++);
     TodoItem* child = new TodoItem("",
-                                   tr("Subtask"),
+                                   title,
                                    tr("Subtask description"));
 
 
-    m_model->addChildTask(current, child);
+    m_model->addChildTask(sourceIndex, child);
 
     m_hasUnsavedChanges = true;
     ui->treeView->expand(current);
@@ -315,7 +322,8 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
     }
 
 
-    TodoItem* parent = m_model->getTask(current);
+    QModelIndex sourceIndex = mapToSource(current);
+    TodoItem* parent = m_model->getTask(sourceIndex);
 
     if (!parent || !parent->isComposite()) {
         QMessageBox::warning(
@@ -327,13 +335,13 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
         return;
     }
 
-
+  QString title = tr("SubTask %1").arg(m_subtaskCounter++);
     Composite* child = new Composite("",
-                                     tr("Subtask"),
+                                     title,
                                      tr("Subtask description"));
 
 
-    m_model->addChildTask(current, child);
+    m_model->addChildTask(sourceIndex, child);
 
     m_hasUnsavedChanges = true;
     ui->treeView->expand(current);
@@ -343,8 +351,9 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
 void MainWindow::on_actionAddComposite_triggered()
 {
 
+    QString title = tr("Composite %1").arg(m_compositeCounter++);
     Composite* composite = new Composite("",
-                                         tr("New Composite"),
+                                         title,
                                          tr("Composite description"));
 
     m_model->addRootTask(composite);
@@ -367,7 +376,8 @@ void MainWindow::on_actionDelete_triggered()
         return;
     }
 
-    TodoItem* task = m_model->getTask(current);
+    QModelIndex sourceIndex = mapToSource(current);
+    TodoItem* task = m_model->getTask(sourceIndex);
     if (!task) {
         return;
     }
@@ -393,7 +403,7 @@ void MainWindow::on_actionDelete_triggered()
         QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
-        m_model->removeTask(current);
+        m_model->removeTask(sourceIndex);
         m_hasUnsavedChanges = true;
         clearDetailPanel();
         ui->statusBar->showMessage(tr("Task deleted"), 2000);
@@ -401,7 +411,13 @@ void MainWindow::on_actionDelete_triggered()
 }
 
 
+QModelIndex MainWindow::mapToSource(const QModelIndex& proxyIndex) const
+{
+    if (!proxyIndex.isValid())
+        return QModelIndex();
 
+    return m_proxyModel->mapToSource(proxyIndex);
+}
 void MainWindow::onTaskSelectionChanged(
     const QModelIndex &current,
     const QModelIndex &previous)
@@ -414,14 +430,36 @@ void MainWindow::onTaskSelectionChanged(
         return;
     }
 
-    TodoItem* task = m_model->getTask(current);
-    if (task) {
+    try {
+        QModelIndex sourceIndex = mapToSource(current);
 
-        updateDetailPanelState(true);
-        loadTaskDetails(task);
+        qDebug() << "=== Task Selection Changed ===";
+        qDebug() << "Proxy index valid:" << current.isValid();
+        qDebug() << "Source index valid:" << sourceIndex.isValid();
+
+        TodoItem* task = m_model->getTask(sourceIndex);
+
+        if (task) {
+            qDebug() << "Task found:" << task->getTitle();
+            qDebug() << "Is composite:" << task->isComposite();
+
+            updateDetailPanelState(true);
+            loadTaskDetails(task);
+
+            qDebug() << "Details loaded successfully";
+        } else {
+            qDebug() << "ERROR: getTask returned nullptr!";
+            clearDetailPanel();
+            updateDetailPanelState(false);
+        }
+    } catch (const std::exception& e) {
+        qDebug() << "EXCEPTION in onTaskSelectionChanged:" << e.what();
+
+    } catch (...) {
+        qDebug() << "UNKNOWN EXCEPTION in onTaskSelectionChanged";
+
     }
 }
-
 void MainWindow::on_saveButton_clicked()
 {
     if (!m_currentTask) {
@@ -432,14 +470,13 @@ void MainWindow::on_saveButton_clicked()
     m_currentTask->setTitle(ui->titleEdit->text());
     m_currentTask->setDescription(ui->descriptionEdit->toPlainText());
     m_currentTask->setDueDate(ui->dueDateEdit->date());
-    /*int currentIndex=ui->stateCombo->currentIndex();
-    TodoState newState=static_cast<TodoState>(ui->stateCombo->itemData(currentIndex).toInt());
-    m_currentTask->setState(newState);*/
+
     m_hasUnsavedChanges = true;
 
 
-    QModelIndex index = ui->treeView->currentIndex();
-    emit m_model->dataChanged(index, index);
+    QModelIndex proxyIndex = ui->treeView->currentIndex();
+    QModelIndex sourceIndex = mapToSource(proxyIndex);
+    emit m_model->dataChanged(sourceIndex, sourceIndex);
 
     ui->statusBar->showMessage(tr("Changes saved"), 2000);
 }
@@ -458,7 +495,7 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
     if (!m_currentTask) {
         return;
     }
-    // 🔒 BLOQUAGE FORT
+
     if (m_currentTask->getCountPrec() > 0) {
         ui->stateCombo->blockSignals(true);
         loadTaskDetails(m_currentTask); // restaurer l'état réel
@@ -476,8 +513,10 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
     m_hasUnsavedChanges = true;
 
 
-    QModelIndex modelIndex = ui->treeView->currentIndex();
-    emit m_model->dataChanged(modelIndex, modelIndex);
+
+    QModelIndex proxyIndex = ui->treeView->currentIndex();
+    QModelIndex sourceIndex = mapToSource(proxyIndex);
+    emit m_model->dataChanged(sourceIndex, sourceIndex);
 
 
     ui->statusBar->showMessage(
@@ -487,12 +526,13 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
 
 void MainWindow::on_searchBox_textChanged(const QString &text)
 {
+
+    m_proxyModel->setFilterFixedString(text);
+
     if (text.isEmpty()) {
         ui->statusBar->clearMessage();
-
     } else {
         ui->statusBar->showMessage(tr("Search: %1").arg(text), 2000);
-
     }
 }
 
@@ -500,36 +540,44 @@ void MainWindow::on_searchBox_textChanged(const QString &text)
 
 void MainWindow::loadTaskDetails(TodoItem* task)
 {
+    qDebug() << ">>> loadTaskDetails START";
+
     if (!task) {
+        qDebug() << "Task is nullptr, clearing panel";
         clearDetailPanel();
         return;
     }
 
+    qDebug() << "Setting m_currentTask";
     m_currentTask = task;
 
-
+    qDebug() << "Setting taskIdLabel...";
     ui->taskIdLabel->setText(task->getTitle());
+
+    qDebug() << "Setting titleEdit...";
     ui->titleEdit->setText(task->getTitle());
+
+    qDebug() << "Setting descriptionEdit...";
     ui->descriptionEdit->setPlainText(task->getDescription());
+
+    qDebug() << "Setting dueDateEdit...";
     ui->dueDateEdit->setDate(task->getDueDate());
-    // 🔒 Bloquer le changement d'état si prédécesseurs non terminés
+
+    qDebug() << "Checking canChangeState...";
+    qDebug() << "getCountPrec() =" << task->getCountPrec();
     bool canChangeState = (task->getCountPrec() == 0);
-    /*if(canChangeState){
-        qDebug()<<"lina lina";
-    }*/
-    // 🔒 Désactivation totale
     ui->stateCombo->setEnabled(canChangeState);
 
-    // 🛈 Tooltip explicatif
     if (!canChangeState) {
         ui->stateCombo->setToolTip(
-            tr("Impossible de modifier l’état :\n"
+            tr("Impossible de modifier l'état :\n"
                "Tous les prédécesseurs ne sont pas terminés."));
     } else {
-        ui->stateCombo->setToolTip(tr("Modifier l’état de la tâche"));
+        ui->stateCombo->setToolTip(tr("Modifier l'état de la tâche"));
     }
 
-
+    qDebug() << "Updating stateCombo...";
+    ui->stateCombo->blockSignals(true);
     for (int i = 0; i < ui->stateCombo->count(); ++i) {
         TodoState comboState = static_cast<TodoState>(
             ui->stateCombo->itemData(i).toInt());
@@ -539,28 +587,42 @@ void MainWindow::loadTaskDetails(TodoItem* task)
             break;
         }
     }
+    ui->stateCombo->blockSignals(false);
 
+    qDebug() << "Clearing prevsListWidget...";
     ui->prevsListWidget->clear();
-    for (TodoItem* prev : task->getPrevs()) {
-        ui->prevsListWidget->addItem(
-            QString("← %1").arg(prev->getTitle()));
+
+    qDebug() << "Getting prevs list...";
+    const QList<TodoItem*>& prevs = task->getPrevs();
+    qDebug() << "Number of prevs:" << prevs.size();
+
+    qDebug() << "Iterating through prevs...";
+    for (int i = 0; i < prevs.size(); ++i) {
+        TodoItem* prev = prevs[i];
+        qDebug() << "  Prev" << i << ":" << (prev ? "valid" : "NULL");
+
+        if (prev) {
+            qDebug() << "    Getting title...";
+            QString title = prev->getTitle();
+            qDebug() << "    Title:" << title;
+
+            qDebug() << "    Adding to list widget...";
+            ui->prevsListWidget->addItem(QString("← %1").arg(title));
+            qDebug() << "    Added successfully";
+        }
     }
 
-
-    /*ui->nextsListWidget->clear();
-    for (TodoItem* next : task->getNexts()) {
-        ui->nextsListWidget->addItem(
-            QString("→ %1").arg(next->getTitle()));
-    }*/
-
-
+    qDebug() << "Checking if composite...";
     if (task->isComposite()) {
+        qDebug() << "Task is composite, getting info...";
         Composite* comp = static_cast<Composite*>(task);
         QString info = tr("Composite: %1 subtask(s), %2% completed")
                            .arg(comp->getChildrenCount())
                            .arg(comp->getCompletionPercentage());
         ui->statusBar->showMessage(info, 3000);
     }
+
+    qDebug() << "<<< loadTaskDetails END";
 }
 
 void MainWindow::clearDetailPanel()
@@ -573,7 +635,7 @@ void MainWindow::clearDetailPanel()
     ui->dueDateEdit->setDate(QDate::currentDate().addDays(7));
     ui->stateCombo->setCurrentIndex(0);
     ui->prevsListWidget->clear();
-    //ui->nextsListWidget->clear();
+
 }
 
 void MainWindow::updateDetailPanelState(bool enabled)
@@ -581,11 +643,10 @@ void MainWindow::updateDetailPanelState(bool enabled)
     ui->titleEdit->setEnabled(enabled);
     ui->descriptionEdit->setEnabled(enabled);
     ui->dueDateEdit->setEnabled(enabled);
-   // ui->stateCombo->setEnabled(enabled);
     ui->saveButton->setEnabled(enabled);
     ui->cancelButton->setEnabled(enabled);
     ui->prevsListWidget->setEnabled(enabled);
-    //ui->nextsListWidget->setEnabled(enabled);
+
 }
 
 

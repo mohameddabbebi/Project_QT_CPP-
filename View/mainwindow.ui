@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>KIRA - Gestionnaire de Tâches</string>
+   <string>KIRA – Task Manager</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="toolTip">
@@ -405,7 +405,7 @@
   </action>
   <action name="actionAddTask">
    <property name="text">
-    <string>Add Task</string>
+    <string>Create Task</string>
    </property>
   </action>
   <action name="actionDelete">
@@ -423,17 +423,17 @@
   </action>
   <action name="actionAddChild">
    <property name="text">
-    <string>Add SubTask</string>
+    <string>Create Subtask</string>
    </property>
   </action>
   <action name="actionAddComposite">
    <property name="text">
-    <string>Add Composite</string>
+    <string>Create Group Task</string>
    </property>
   </action>
   <action name="actionAdd_SubTaskComposite">
    <property name="text">
-    <string>Add SubTaskComposite</string>
+    <string>Add Subgroup Task</string>
    </property>
   </action>
  </widget>

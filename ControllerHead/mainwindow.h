@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QModelIndex>
+#include <QSortFilterProxyModel>
 
 
 #include "../ModelHead/todomodel.h"
@@ -60,7 +61,6 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void on_stateCombo_activated(int index);
 
 private:
 
@@ -74,7 +74,10 @@ private:
     bool m_hasUnsavedChanges;
 
 
-
+   QSortFilterProxyModel *m_proxyModel;
+   int m_taskCounter = 1;
+   int m_subtaskCounter=1;
+   int m_compositeCounter=1;
 
     void setupConnections();
     void setupStateComboBox();
@@ -82,6 +85,7 @@ private:
     void loadTaskDetails(TodoItem* task);
     void clearDetailPanel();
     void updateDetailPanelState(bool enabled);
+    QModelIndex mapToSource(const QModelIndex& proxyIndex) const;
 };
 
 #endif

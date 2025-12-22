@@ -1,10 +1,11 @@
-release/treerecursivefilter.o
+release/todofilterproxymodel.o
 release/composite.o
 release/main.o
 release/mainwindow.o
 release/todoitem.o
 release/todomodel.o
-release/moc_treerecursivefilter.o
+release/qrc_resources.o
+release/moc_todofilterproxymodel.o
 release/moc_composite.o
 release/moc_mainwindow.o
 release/moc_todoitem.o

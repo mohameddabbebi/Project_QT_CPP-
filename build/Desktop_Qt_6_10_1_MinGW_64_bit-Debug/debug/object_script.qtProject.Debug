@@ -1,10 +1,11 @@
-debug/treerecursivefilter.o
+debug/todofilterproxymodel.o
 debug/composite.o
 debug/main.o
 debug/mainwindow.o
 debug/todoitem.o
 debug/todomodel.o
-debug/moc_treerecursivefilter.o
+debug/qrc_resources.o
+debug/moc_todofilterproxymodel.o
 debug/moc_composite.o
 debug/moc_mainwindow.o
 debug/moc_todoitem.o
