@@ -7,7 +7,12 @@
 #include <QAbstractItemView>
 #include <QItemSelectionModel>
 #include "todofilterproxymodel.h"
-
+/**
+ * @brief Constructeur de la fenêtre principale.
+ * @param parent Widget parent (par défaut nullptr)
+ *
+ * Initialise l'interface, le modèle de tâches et le proxy pour filtrage.
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -36,13 +41,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->statusBar->showMessage(tr("Ready - Welcome to KIRA!"), 3000);
 }
-
+/**
+ * @brief Destructeur de MainWindow.
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-
+/**
+ * @brief Configure l'affichage de la QTreeView.
+ *
+ * Définit la largeur des colonnes et active l'ajustement automatique.
+ */
 
 void MainWindow::setupTreeView()
 {
@@ -58,7 +69,9 @@ void MainWindow::setupTreeView()
 
     ui->treeView->header()->setStretchLastSection(true);
 }
-
+/**
+ * @brief Connecte les signaux aux slots de l'interface.
+ */
 void MainWindow::setupConnections()
 {
 
@@ -67,7 +80,9 @@ void MainWindow::setupConnections()
     connect(ui->searchBox, &QLineEdit::textChanged,
             this, &MainWindow::on_searchBox_textChanged);
 }
-
+/**
+ * @brief Remplit la combobox des états de tâches.
+ */
 void MainWindow::setupStateComboBox()
 {
 
@@ -84,7 +99,11 @@ void MainWindow::setupStateComboBox()
                             static_cast<int>(TodoState::Done));
 }
 
-
+/**
+ * @brief Crée un nouveau projet.
+ *
+ * Vérifie les modifications non sauvegardées avant de réinitialiser le modèle.
+ */
 void MainWindow::on_actionNewProject_triggered()
 {
     if (m_hasUnsavedChanges) {
@@ -110,7 +129,9 @@ void MainWindow::on_actionNewProject_triggered()
 
     ui->statusBar->showMessage(tr("New project created"), 3000);
 }
-
+/**
+ * @brief Ouvre un projet depuis un fichier JSON ou XML.
+ */
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(
@@ -134,7 +155,9 @@ void MainWindow::on_actionOpen_triggered()
                              tr("Failed to load project from: %1").arg(fileName));
     }
 }
-
+/**
+ * @brief Sauvegarde le projet courant.
+ */
 void MainWindow::on_actionSave_triggered()
 {
     if (m_currentFilePath.isEmpty()) {
@@ -153,7 +176,9 @@ void MainWindow::on_actionSave_triggered()
                              tr("Failed to save project to: %1").arg(m_currentFilePath));
     }
 }
-
+/**
+ * @brief Sauvegarde le projet sous un nouveau fichier.
+ */
 void MainWindow::on_actionSaveAs_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(
@@ -174,7 +199,9 @@ void MainWindow::on_actionSaveAs_triggered()
     m_currentFilePath = fileName;
     on_actionSave_triggered();
 }
-
+/**
+ * @brief Importation de tâches depuis un fichier JSON.
+ */
 void MainWindow::on_actionImporter_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(
@@ -195,7 +222,9 @@ void MainWindow::on_actionImporter_triggered()
                              tr("Failed to import from: %1").arg(fileName));
     }
 }
-
+/**
+ * @brief Exportation des tâches vers un fichier JSON.
+ */
 void MainWindow::on_actionExporter_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(
@@ -215,7 +244,9 @@ void MainWindow::on_actionExporter_triggered()
                              tr("Failed to export to: %1").arg(fileName));
     }
 }
-
+/**
+ * @brief Quitte l'application en vérifiant les modifications non sauvegardées.
+ */
 void MainWindow::on_actionQuit_triggered()
 {
     if (m_hasUnsavedChanges) {
@@ -235,7 +266,9 @@ void MainWindow::on_actionQuit_triggered()
 
     close();
 }
-
+/**
+ * @brief Affiche la boîte "À propos" de KIRA.
+ */
 void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::about(
@@ -253,7 +286,9 @@ void MainWindow::on_actionAbout_triggered()
            "<p><b>Project:</b> LAOA - 2025</p>"
            "<p><b>Technology:</b> Qt 6 / C++17</p>"));
 }
-
+/**
+ * @brief Ajoute une tâche simple.
+ */
 
 void MainWindow::on_actionAddTask_triggered()
 {
@@ -269,7 +304,9 @@ QString title = tr("Task %1").arg(m_taskCounter++);
 
     ui->statusBar->showMessage(tr("Root task added: %1").arg(title), 2000);
 }
-
+/**
+ * @brief Ajoute une sous-tâche simple.
+ */
 void MainWindow::on_actionAddChild_triggered()
 {
     QModelIndex current = ui->treeView->currentIndex();
@@ -306,6 +343,9 @@ void MainWindow::on_actionAddChild_triggered()
 
     ui->statusBar->showMessage(tr("Subtask added"), 2000);
 }
+/**
+ * @brief Ajoute une sous-tâche composite.
+ */
 void MainWindow::on_actionAdd_SubTaskComposite_triggered()
 {
     QModelIndex current = ui->treeView->currentIndex();
@@ -342,6 +382,9 @@ void MainWindow::on_actionAdd_SubTaskComposite_triggered()
 
     ui->statusBar->showMessage(tr("Subtask added"), 2000);
 }
+/**
+ * @brief Ajoute une tâche composite.
+ */
 void MainWindow::on_actionAddComposite_triggered()
 {
 
@@ -357,7 +400,9 @@ void MainWindow::on_actionAddComposite_triggered()
 
     ui->statusBar->showMessage(tr("Composite project added"), 2000);
 }
-
+/**
+ * @brief supprimer une tâche séléctionnée.
+ */
 void MainWindow::on_actionDelete_triggered()
 {
     QModelIndex current = ui->treeView->currentIndex();
@@ -404,7 +449,13 @@ void MainWindow::on_actionDelete_triggered()
     }
 }
 
-
+/**
+ * @brief Convertit un index de proxy en index du modèle source.
+ * @param proxyIndex Index dans le modèle proxy
+ * @return QModelIndex correspondant dans le modèle source
+ *
+ * Si l'index proxy n'est pas valide, retourne un index vide.
+ */
 QModelIndex MainWindow::mapToSource(const QModelIndex& proxyIndex) const
 {
     if (!proxyIndex.isValid())
@@ -412,6 +463,14 @@ QModelIndex MainWindow::mapToSource(const QModelIndex& proxyIndex) const
 
     return m_proxyModel->mapToSource(proxyIndex);
 }
+/**
+ * @brief Slot appelé lorsque la sélection change dans la QTreeView.
+ * @param current Index actuellement sélectionné
+ * @param previous Index précédemment sélectionné
+ *
+ * Met à jour le panneau de détails avec les informations de la tâche sélectionnée.
+ * Si aucune tâche n'est sélectionnée, le panneau est désactivé.
+ */
 void MainWindow::onTaskSelectionChanged(
     const QModelIndex &current,
     const QModelIndex &previous)
@@ -454,6 +513,11 @@ void MainWindow::onTaskSelectionChanged(
 
     }
 }
+/**
+ * @brief Slot appelé lors du clic sur le bouton "Save" dans le panneau de détails.
+ *
+ * Sauvegarde les modifications du titre, de la description et de la date de la tâche courante.
+ */
 void MainWindow::on_saveButton_clicked()
 {
     if (!m_currentTask) {
@@ -474,7 +538,11 @@ void MainWindow::on_saveButton_clicked()
 
     ui->statusBar->showMessage(tr("Changes saved"), 2000);
 }
-
+/**
+ * @brief Slot appelé lors du clic sur le bouton "Cancel" dans le panneau de détails.
+ *
+ * Annule les modifications en rechargeant les informations de la tâche courante.
+ */
 void MainWindow::on_cancelButton_clicked()
 {
     if (m_currentTask) {
@@ -483,7 +551,12 @@ void MainWindow::on_cancelButton_clicked()
         ui->statusBar->showMessage(tr("Changes cancelled"), 2000);
     }
 }
-
+/**
+ * @brief Slot appelé lorsque l'état sélectionné dans la combobox change.
+ * @param index Index sélectionné dans la combobox
+ *
+ * Met à jour l'état de la tâche courante si elle n'a pas de prédécesseurs incomplets.
+ */
 void MainWindow::on_stateCombo_currentIndexChanged(int index)
 {
     if (!m_currentTask) {
@@ -517,7 +590,12 @@ void MainWindow::on_stateCombo_currentIndexChanged(int index)
         tr("State changed: %1").arg(todoStateToString(newState)),
         2000);
 }
-
+/**
+ * @brief Slot appelé lors de la saisie dans la zone de recherche.
+ * @param text Texte de recherche
+ *
+ * Filtre les tâches affichées dans la QTreeView selon le texte saisi.
+ */
 void MainWindow::on_searchBox_textChanged(const QString &text)
 {
 
@@ -530,7 +608,13 @@ void MainWindow::on_searchBox_textChanged(const QString &text)
     }
 }
 
-
+/**
+ * @brief Charge les détails d'une tâche dans le panneau de détails.
+ * @param task Tâche à afficher
+ *
+ * Remplit les champs titre, description, date et état.
+ * Met à jour la liste des prédécesseurs et l'état du panneau.
+ */
 
 void MainWindow::loadTaskDetails(TodoItem* task)
 {
@@ -618,7 +702,11 @@ void MainWindow::loadTaskDetails(TodoItem* task)
 
     qDebug() << "<<< loadTaskDetails END";
 }
-
+/**
+ * @brief Réinitialise le panneau de détails.
+ *
+ * Vide tous les champs et désélectionne la tâche courante.
+ */
 void MainWindow::clearDetailPanel()
 {
     m_currentTask = nullptr;
@@ -631,7 +719,10 @@ void MainWindow::clearDetailPanel()
     ui->prevsListWidget->clear();
 
 }
-
+/**
+ * @brief Active ou désactive les widgets du panneau de détails.
+ * @param enabled true pour activer, false pour désactiver
+ */
 void MainWindow::updateDetailPanelState(bool enabled)
 {
     ui->titleEdit->setEnabled(enabled);

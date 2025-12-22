@@ -6,14 +6,23 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-
+/**
+ * @brief Constructeur du modèle TodoModel.
+ * @param parent Objet parent
+ *
+ * Initialise le modèle avec une racine composite invisible.
+ */
 TodoModel::TodoModel(QObject *parent)
     : QAbstractItemModel(parent)
     , m_root(new Composite("Root", "Racine invisible", this))
 {
 
 }
-
+/**
+ * @brief Destructeur du modèle.
+ *
+ * Supprime tous les enfants et la racine.
+ */
 TodoModel::~TodoModel()
 {
     clear();
@@ -21,7 +30,15 @@ TodoModel::~TodoModel()
 }
 
 
-
+/**
+ * @brief Crée un index de modèle pour la vue.
+ * @param row Ligne de l'élément
+ * @param column Colonne de l'élément
+ * @param parent Index parent
+ * @return QModelIndex correspondant à la position demandée
+ *
+ * Si l'élément demandé est un enfant d'un composite, retourne l'index correspondant.
+ */
 QModelIndex TodoModel::index(int row, int column, const QModelIndex &parent) const
 {
     if (!hasIndex(row, column, parent)) {
@@ -52,7 +69,13 @@ QModelIndex TodoModel::index(int row, int column, const QModelIndex &parent) con
 
     return QModelIndex();
 }
-
+/**
+ * @brief Récupère l'index parent d'un élément.
+ * @param child Index enfant
+ * @return QModelIndex parent
+ *
+ * Retourne un index invalide si l'élément est directement sous la racine.
+ */
 QModelIndex TodoModel::parent(const QModelIndex &child) const
 {
     if (!child.isValid()) {
@@ -80,7 +103,9 @@ QModelIndex TodoModel::parent(const QModelIndex &child) const
     int row = grandParent->indexOf(parentItem);
     return createIndex(row, 0, parentItem);
 }
-
+/**
+ * @brief Retourne le nombre de lignes enfants pour un index donné.
+ */
 int TodoModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.column() > 0) {
@@ -101,13 +126,22 @@ int TodoModel::rowCount(const QModelIndex &parent) const
 
     return parentItem ? parentItem->getChildrenCount() : 0;
 }
-
+/**
+ * @brief Retourne le nombre de colonnes.
+ */
 int TodoModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
     return ColumnCount;
 }
-
+/**
+ * @brief Retourne les données pour un index et un rôle donné.
+ * @param index Index de l'élément
+ * @param role Rôle Qt
+ * @return QVariant correspondant à la donnée demandée
+ *
+ * Gère l'affichage, la couleur selon l'état, et le pourcentage pour les composites.
+ */
 QVariant TodoModel::data(const QModelIndex &index, int role) const
 {
     if (!index.isValid()) {
@@ -161,7 +195,9 @@ QVariant TodoModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-
+/**
+ * @brief Retourne les en-têtes pour les colonnes.
+ */
 QVariant TodoModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
@@ -180,7 +216,9 @@ QVariant TodoModel::headerData(int section, Qt::Orientation orientation, int rol
     }
     return QVariant();
 }
-
+/**
+ * @brief Retourne les flags pour un index donné (éditable, sélectionnable, etc.).
+ */
 Qt::ItemFlags TodoModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
@@ -209,6 +247,13 @@ Qt::ItemFlags TodoModel::flags(const QModelIndex &index) const
 }
 
 
+/**
+ * @brief Modifie la donnée pour un index donné.
+ * @param index Index de la cellule
+ * @param value Nouvelle valeur
+ * @param role Rôle Qt
+ * @return true si la modification a été effectuée
+ */
 bool TodoModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (!index.isValid() || role != Qt::EditRole) {
@@ -246,7 +291,9 @@ bool TodoModel::setData(const QModelIndex &index, const QVariant &value, int rol
     return success;
 }
 
-
+/**
+ * @brief Ajoute une tâche directement sous la racine.
+ */
 
 void TodoModel::addRootTask(TodoItem* task)
 {
@@ -261,7 +308,9 @@ void TodoModel::addRootTask(TodoItem* task)
     registerTask(task);
     endInsertRows();
 }
-
+/**
+ * @brief Ajoute un enfant sous un composite donné.
+ */
 void TodoModel::addChildTask(const QModelIndex &parent, TodoItem* child)
 {
     if (!child || !parent.isValid()) {
@@ -281,7 +330,9 @@ void TodoModel::addChildTask(const QModelIndex &parent, TodoItem* child)
     registerTask(child);
     endInsertRows();
 }
-
+/**
+ * @brief Supprime une tâche et met à jour la vue.
+ */
 bool TodoModel::removeTask(const QModelIndex &index)
 {
     if (!index.isValid()) {
@@ -309,7 +360,9 @@ bool TodoModel::removeTask(const QModelIndex &index)
     delete item;
     return true;
 }
-
+/**
+ * @brief Retourne le TodoItem correspondant à un index.
+ */
 TodoItem* TodoModel::getTask(const QModelIndex &index) const
 {
     if (!index.isValid()) {
@@ -317,7 +370,9 @@ TodoItem* TodoModel::getTask(const QModelIndex &index) const
     }
     return static_cast<TodoItem*>(index.internalPointer());
 }
-
+/**
+ * @brief Retourne l'index d'un TodoItem donné.
+ */
 QModelIndex TodoModel::getIndexFromTask(TodoItem* task) const
 {
     if (!task || task == m_root) {
@@ -336,7 +391,9 @@ QModelIndex TodoModel::getIndexFromTask(TodoItem* task) const
 
     return createIndex(row, 0, task);
 }
-
+/**
+ * @brief Réinitialise le modèle et supprime toutes les tâches.
+ */
 void TodoModel::clear()
 {
     beginResetModel();
@@ -352,7 +409,9 @@ void TodoModel::clear()
 
     endResetModel();
 }
-
+/**
+ * @brief Slot appelé quand une tâche émet un signal dataChanged.
+ */
 void TodoModel::onTaskDataChanged()
 {
     TodoItem* task = qobject_cast<TodoItem*>(sender());
@@ -369,7 +428,9 @@ void TodoModel::onTaskDataChanged()
     }
 }
 
-
+/**
+ * @brief Enregistre une tâche pour le suivi et connecte son signal.
+ */
 
 void TodoModel::registerTask(TodoItem* task)
 {
@@ -384,6 +445,9 @@ void TodoModel::registerTask(TodoItem* task)
             this, &TodoModel::onTaskDataChanged);
 }
 
+/**
+ * @brief Déconnecte et supprime une tâche du suivi.
+ */
 void TodoModel::unregisterTask(TodoItem* task)
 {
     if (!task) {
@@ -395,7 +459,9 @@ void TodoModel::unregisterTask(TodoItem* task)
 
     m_tasks.removeOne(task);
 }
-
+/**
+ * @brief Trouve le composite parent d'une tâche donnée.
+ */
 Composite* TodoModel::findParentOf(TodoItem* task) const
 {
     if (!task) {
@@ -410,7 +476,9 @@ Composite* TodoModel::findParentOf(TodoItem* task) const
     // Recherche récursive
     return findParentRecursive(task, m_root);
 }
-
+/**
+ * @brief Recherche récursive du parent dans un composite.
+ */
 Composite* TodoModel::findParentRecursive(TodoItem* task, Composite* parent) const
 {
     if (!parent || !task) {
@@ -435,6 +503,11 @@ Composite* TodoModel::findParentRecursive(TodoItem* task, Composite* parent) con
 
     return nullptr;
 }
+/**
+ * @brief Importe un projet depuis un fichier JSON.
+ * @param filePath Chemin vers le fichier JSON
+ * @return true si l'import réussi
+ */
 bool TodoModel::importFromJson(const QString& filePath)
 {
     QFile file(filePath);

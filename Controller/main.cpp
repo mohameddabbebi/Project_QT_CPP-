@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    app.setWindowIcon(QIcon(":/icons/KIRA_icon.png"));
+    app.setWindowIcon(QIcon(":/icons/kira_icon.png"));
 
     // Configuration de l'application
     app.setApplicationName("KIRA");
