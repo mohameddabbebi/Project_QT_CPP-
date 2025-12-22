@@ -357,7 +357,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "KIRA - Gestionnaire de T\303\242ches", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "KIRA \342\200\223 Task Manager", nullptr));
         actionNewProject->setText(QCoreApplication::translate("MainWindow", "New Project", nullptr));
 #if QT_CONFIG(shortcut)
         actionNewProject->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+N", nullptr));
@@ -380,15 +380,15 @@ public:
 #if QT_CONFIG(shortcut)
         actionQuit->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Q", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionAddTask->setText(QCoreApplication::translate("MainWindow", "Add Task", nullptr));
+        actionAddTask->setText(QCoreApplication::translate("MainWindow", "Create Task", nullptr));
         actionDelete->setText(QCoreApplication::translate("MainWindow", "Delete Task", nullptr));
 #if QT_CONFIG(tooltip)
         actionDelete->setToolTip(QCoreApplication::translate("MainWindow", "Delete Task", nullptr));
 #endif // QT_CONFIG(tooltip)
         actionAbout->setText(QCoreApplication::translate("MainWindow", "Info", nullptr));
-        actionAddChild->setText(QCoreApplication::translate("MainWindow", "Add SubTask", nullptr));
-        actionAddComposite->setText(QCoreApplication::translate("MainWindow", "Add Composite", nullptr));
-        actionAdd_SubTaskComposite->setText(QCoreApplication::translate("MainWindow", "Add SubTaskComposite", nullptr));
+        actionAddChild->setText(QCoreApplication::translate("MainWindow", "Create Subtask", nullptr));
+        actionAddComposite->setText(QCoreApplication::translate("MainWindow", "Create Group Task", nullptr));
+        actionAdd_SubTaskComposite->setText(QCoreApplication::translate("MainWindow", "Add Subgroup Task", nullptr));
 #if QT_CONFIG(tooltip)
         centralwidget->setToolTip(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"justify\"><br/></p></body></html>", nullptr));
 #endif // QT_CONFIG(tooltip)

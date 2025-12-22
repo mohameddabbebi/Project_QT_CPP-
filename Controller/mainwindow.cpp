@@ -662,7 +662,13 @@ void MainWindow::on_prevsListWidget_currentItemChanged(QListWidgetItem *current,
     int id = current->data(Qt::UserRole).toInt();
     qDebug() << "Prev sélectionné ID =" << id;
 }
-
+void dfs(QList<TodoItem*>& pr,TodoItem* p){
+    for(TodoItem* next:p->getNexts()){
+        pr.append(next);
+        dfs(pr,next);
+    }
+    return;
+}
 void MainWindow::addPrevFromAllItems()
 {
     ui->prevsListWidget->clear();
@@ -672,12 +678,15 @@ void MainWindow::addPrevFromAllItems()
 
     const QList<TodoItem*>& allTasks = m_model->getAllTasks();
     const QList<TodoItem*>& currentPrevs = m_currentTask->getPrevs();
+    QList<TodoItem*> les_trucs_qui_fait_des_cycles;
+    les_trucs_qui_fait_des_cycles.append(m_currentTask);
+    dfs(les_trucs_qui_fait_des_cycles,m_currentTask);
+
 
     for (TodoItem* task : allTasks) {
-
-        if (task == m_currentTask)
+        if(les_trucs_qui_fait_des_cycles.contains(task)){
             continue;
-
+        }
         QListWidgetItem* item =
             new QListWidgetItem(task->getTitle());
 
@@ -695,6 +704,7 @@ void MainWindow::addPrevFromAllItems()
 
         ui->prevsListWidget->addItem(item);
     }
+    les_trucs_qui_fait_des_cycles.clear();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -712,7 +722,16 @@ void MainWindow::on_pushButton_2_clicked()
     addPrevFromAllItems();
 }
 
-
+void Intermediate(QList<TodoItem*>p , TodoItem * cr){
+    if(cr->isComposite()){
+        Composite * crr = static_cast<Composite*> (cr);
+        for(TodoItem* child : crr->getChildren()){
+            Intermediate(p,child);
+        }
+    }
+    cr->setPrev(p);
+    return ;
+}
 void MainWindow::on_pushButton_clicked()
 {
 
@@ -732,6 +751,12 @@ void MainWindow::on_pushButton_clicked()
                 newPrevs.append(prev);
         }
     }
+    if(m_currentTask->isComposite()){
+        Composite * cour = static_cast<Composite*> (m_currentTask);
+        for(TodoItem *child : cour->getChildren()){
+            Intermediate(newPrevs,child);
+        }
+    }
     m_currentTask->setPrev(newPrevs);
 
     m_editPrevsMode = false;
@@ -739,3 +764,4 @@ void MainWindow::on_pushButton_clicked()
 
     m_hasUnsavedChanges = true;
 }
+
