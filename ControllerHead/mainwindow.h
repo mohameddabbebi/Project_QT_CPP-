@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void addPrevFromAllItems() ;
+    void Update_prev_list() ;
 private slots:
 
 

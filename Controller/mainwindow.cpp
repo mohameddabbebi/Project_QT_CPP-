@@ -747,6 +747,10 @@ void MainWindow::on_prevsListWidget_currentItemChanged(QListWidgetItem *current,
     int id = current->data(Qt::UserRole).toInt();
     qDebug() << "Prev sélectionné ID =" << id;
 }
+
+/**
+ * @brief ce dfs cherche tous les taches qui peut etre consideré comme next (c a d successeur en terme de graphe de dependances ) pour eviter les cycles
+ */
 void dfs(QList<TodoItem*>& pr,TodoItem* p){
     for(TodoItem* next:p->getNexts()){
         pr.append(next);
@@ -754,7 +758,10 @@ void dfs(QList<TodoItem*>& pr,TodoItem* p){
     }
     return;
 }
-void MainWindow::addPrevFromAllItems()
+/**
+ * @brief MainWindow::Update_prev_list : elle fait une msj des items qui peut etre selectionné comme previous state pour l'item courant
+ */
+void MainWindow::Update_prev_list()
 {
     ui->prevsListWidget->clear();
 
@@ -792,6 +799,9 @@ void MainWindow::addPrevFromAllItems()
     les_trucs_qui_fait_des_cycles.clear();
 }
 
+/**
+ * @brief MainWindow::on_pushButton_2_clicked  : la boutton Edit
+ */
 void MainWindow::on_pushButton_2_clicked()
 {
     if (!m_currentTask) {
@@ -804,9 +814,13 @@ void MainWindow::on_pushButton_2_clicked()
     }
 
     m_editPrevsMode = true;
-    addPrevFromAllItems();
+    Update_prev_list();
 }
-
+/**
+ * @brief Intermediate : Intermediate est aussi un dfs mais dans la logique de pere fils (composite et ces fils ) qui ajoute les etats precedants du pere a tous ses successeurs
+ * @param p  : listes des predecesseurs du pere
+ * @param cr : l'item courant
+ */
 void Intermediate(QList<TodoItem*>p , TodoItem * cr){
     if(cr->isComposite()){
         Composite * crr = static_cast<Composite*> (cr);
@@ -817,6 +831,10 @@ void Intermediate(QList<TodoItem*>p , TodoItem * cr){
     cr->setPrev(p);
     return ;
 }
+
+/**
+ * @brief MainWindow::on_pushButton_clicked : La boutton Validate qui valide le choix des predecessurs
+ */
 void MainWindow::on_pushButton_clicked()
 {
 
@@ -845,7 +863,7 @@ void MainWindow::on_pushButton_clicked()
     m_currentTask->setPrev(newPrevs);
 
     m_editPrevsMode = false;
-    addPrevFromAllItems();
+    Update_prev_list();
 
     m_hasUnsavedChanges = true;
 }
