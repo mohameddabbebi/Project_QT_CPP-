@@ -1,0 +1,99 @@
+{
+  "Name": "Charlie",
+  "root": {
+    "title": "Charlie",
+    "description": "Projet de test complexe 3",
+    "state": "Ready_Todo",
+    "dueDate": "2026-04-01",
+    "isComposite": true,
+    "nexts": [],
+    "children": [
+      {
+        "title": "Phase Planification",
+        "description": "Organisation initiale",
+        "state": "Done",
+        "dueDate": "2025-12-10",
+        "isComposite": true,
+        "nexts": ["Phase Exécution"],
+        "children": [
+          {
+            "title": "Étude de faisabilité",
+            "description": "Analyse des risques",
+            "state": "Done",
+            "dueDate": "2025-11-30",
+            "isComposite": false,
+            "nexts": ["Conception initiale"]
+          },
+          {
+            "title": "Conception initiale",
+            "description": "Premiers diagrammes",
+            "state": "Done",
+            "dueDate": "2025-12-05",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      },
+      {
+        "title": "Phase Exécution",
+        "description": "Réalisation du projet",
+        "state": "Ready_Todo",
+        "dueDate": "2026-03-15",
+        "isComposite": true,
+        "nexts": ["Phase Clôture"],
+        "children": [
+          {
+            "title": "Développement des fonctionnalités",
+            "description": "Implémentation complète",
+            "state": "Ready_Todo",
+            "dueDate": "2026-02-15",
+            "isComposite": false,
+            "nexts": ["Tests internes"]
+          },
+          {
+            "title": "Tests internes",
+            "description": "Vérification des modules",
+            "state": "Not_Ready",
+            "dueDate": "2026-02-25",
+            "isComposite": false,
+            "nexts": ["Déploiement"]
+          },
+          {
+            "title": "Déploiement",
+            "description": "Mise en production",
+            "state": "Not_Ready",
+            "dueDate": "2026-03-10",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      },
+      {
+        "title": "Phase Clôture",
+        "description": "Finalisation et bilan",
+        "state": "Ready_Todo",
+        "dueDate": "2026-03-31",
+        "isComposite": true,
+        "nexts": [],
+        "children": [
+          {
+            "title": "Rapport final",
+            "description": "Bilan du projet",
+            "state": "Not_Ready",
+            "dueDate": "2026-03-28",
+            "isComposite": false,
+            "nexts": ["Présentation client"]
+          },
+          {
+            "title": "Présentation client",
+            "description": "Démo finale",
+            "state": "Not_Ready",
+            "dueDate": "2026-03-30",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      }
+    ]
+  }
+}

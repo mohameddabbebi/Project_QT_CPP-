@@ -1,0 +1,145 @@
+{
+    "Name": "Alice",
+    "root": {
+        "children": [
+            {
+                "children": [
+                    {
+                        "count_prec": 0,
+                        "description": "Interviews et questionnaires",
+                        "dueDate": "2025-11-15",
+                        "isComposite": false,
+                        "nexts": [
+                            "Spécifications fonctionnelles"
+                        ],
+                        "state": "IN PROGRESS",
+                        "title": "Collecte des besoins"
+                    },
+                    {
+                        "count_prec": 1,
+                        "description": "Rédaction des cas d'utilisation",
+                        "dueDate": "2025-11-25",
+                        "isComposite": false,
+                        "nexts": [
+                        ],
+                        "state": "NOT READY",
+                        "title": "Spécifications fonctionnelles"
+                    }
+                ],
+                "count_childs": 2,
+                "count_prec": 0,
+                "description": "Analyse initiale",
+                "dueDate": "2025-12-01",
+                "isComposite": true,
+                "nexts": [
+                    "Phase Conception"
+                ],
+                "state": "IN PROGRESS",
+                "title": "Phase Analyse"
+            },
+            {
+                "children": [
+                    {
+                        "count_prec": 0,
+                        "description": "Diagrammes détaillés",
+                        "dueDate": "2025-12-05",
+                        "isComposite": false,
+                        "nexts": [
+                            "Scénarios d'utilisation"
+                        ],
+                        "state": "NOT READY",
+                        "title": "UML"
+                    },
+                    {
+                        "count_prec": 1,
+                        "description": "Diagrammes de séquence et d'activités",
+                        "dueDate": "2025-12-08",
+                        "isComposite": false,
+                        "nexts": [
+                            "Phase Tests"
+                        ],
+                        "state": "NOT READY",
+                        "title": "Scénarios d'utilisation"
+                    }
+                ],
+                "count_childs": 2,
+                "count_prec": 1,
+                "description": "Architecture et conception",
+                "dueDate": "2025-12-10",
+                "isComposite": true,
+                "nexts": [
+                    "Phase Implémentation"
+                ],
+                "state": "NOT READY",
+                "title": "Phase Conception"
+            },
+            {
+                "children": [
+                    {
+                        "count_prec": 0,
+                        "description": "Développement complet des modules",
+                        "dueDate": "2026-01-05",
+                        "isComposite": false,
+                        "nexts": [
+                        ],
+                        "state": "NOT READY",
+                        "title": "Codage final"
+                    }
+                ],
+                "count_childs": 1,
+                "count_prec": 1,
+                "description": "Développement et intégration",
+                "dueDate": "2026-01-10",
+                "isComposite": true,
+                "nexts": [
+                    "Phase Tests"
+                ],
+                "state": "NOT READY",
+                "title": "Phase Implémentation"
+            },
+            {
+                "children": [
+                    {
+                        "count_prec": 0,
+                        "description": "Test de chaque module",
+                        "dueDate": "2026-01-12",
+                        "isComposite": false,
+                        "nexts": [
+                            "Tests intégrés"
+                        ],
+                        "state": "NOT READY",
+                        "title": "Tests unitaires"
+                    },
+                    {
+                        "count_prec": 1,
+                        "description": "Test global du système",
+                        "dueDate": "2026-01-14",
+                        "isComposite": false,
+                        "nexts": [
+                        ],
+                        "state": "NOT READY",
+                        "title": "Tests intégrés"
+                    }
+                ],
+                "count_childs": 2,
+                "count_prec": 2,
+                "description": "Validation finale",
+                "dueDate": "2026-01-15",
+                "isComposite": true,
+                "nexts": [
+                ],
+                "state": "NOT READY",
+                "title": "Phase Tests"
+            }
+        ],
+        "count_childs": 4,
+        "count_prec": 0,
+        "description": "Projet de test complexe 1",
+        "dueDate": "2026-02-10",
+        "isComposite": true,
+        "nexts": [
+        ],
+        "state": "IN PROGRESS",
+        "title": "Alice"
+    }
+}

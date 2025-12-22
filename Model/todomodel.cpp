@@ -172,13 +172,13 @@ QVariant TodoModel::data(const QModelIndex &index, int role) const
     if (role == Qt::ForegroundRole && index.column() == StateColumn) {
         switch (item->getState()) {
         case TodoState::Not_Ready:
-            return QBrush(QColor("#c0392b")); // rouge foncé
+            return QBrush(QColor("#c0392b"));
         case TodoState::Ready_Todo:
-            return QBrush(QColor("#f39c12")); // orange
+            return QBrush(QColor("#f39c12"));
         case TodoState::In_Progress:
-            return QBrush(QColor("#2980b9")); // bleu
+            return QBrush(QColor("#2980b9"));
         case TodoState::Done:
-            return QBrush(QColor("#27ae60")); // vert
+            return QBrush(QColor("#27ae60"));
         }
     }
 

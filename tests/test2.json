@@ -1,0 +1,99 @@
+{
+  "Name": "Bob",
+  "root": {
+    "title": "Bob",
+    "description": "Projet de test complexe 2",
+    "state": "Ready_Todo",
+    "dueDate": "2026-03-01",
+    "isComposite": true,
+    "nexts": [],
+    "children": [
+      {
+        "title": "Phase Préparation",
+        "description": "Préparation du projet",
+        "state": "Done",
+        "dueDate": "2025-12-05",
+        "isComposite": true,
+        "nexts": ["Phase Développement"],
+        "children": [
+          {
+            "title": "Planification",
+            "description": "Définition des tâches",
+            "state": "Done",
+            "dueDate": "2025-11-25",
+            "isComposite": false,
+            "nexts": ["Analyse technique"]
+          },
+          {
+            "title": "Analyse technique",
+            "description": "Choix technologiques",
+            "state": "Done",
+            "dueDate": "2025-12-01",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      },
+      {
+        "title": "Phase Développement",
+        "description": "Codage et intégration",
+        "state": "Ready_Todo",
+        "dueDate": "2026-01-20",
+        "isComposite": true,
+        "nexts": ["Phase Validation"],
+        "children": [
+          {
+            "title": "Module Backend",
+            "description": "Développement API",
+            "state": "Ready_Todo",
+            "dueDate": "2026-01-05",
+            "isComposite": false,
+            "nexts": ["Module Frontend"]
+          },
+          {
+            "title": "Module Frontend",
+            "description": "Interface utilisateur",
+            "state": "Not_Ready",
+            "dueDate": "2026-01-10",
+            "isComposite": false,
+            "nexts": ["Module Tests"]
+          },
+          {
+            "title": "Module Tests",
+            "description": "Préparation des tests unitaires",
+            "state": "Not_Ready",
+            "dueDate": "2026-01-15",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      },
+      {
+        "title": "Phase Validation",
+        "description": "Vérification et QA",
+        "state": "Ready_Todo",
+        "dueDate": "2026-02-28",
+        "isComposite": true,
+        "nexts": [],
+        "children": [
+          {
+            "title": "QA interne",
+            "description": "Tests internes",
+            "state": "Not_Ready",
+            "dueDate": "2026-02-20",
+            "isComposite": false,
+            "nexts": ["QA externe"]
+          },
+          {
+            "title": "QA externe",
+            "description": "Tests clients",
+            "state": "Not_Ready",
+            "dueDate": "2026-02-25",
+            "isComposite": false,
+            "nexts": []
+          }
+        ]
+      }
+    ]
+  }
+}
